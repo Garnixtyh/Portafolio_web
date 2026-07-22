@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giga portafolio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="start-screen" class="start-screen">
+   
+
+    <h1>Gian luca <br> Albarracin garcia</h1>
+    <p>Contacto </p>
+    <p> albarracingianluca308gmail.com </p>
+    <button id="start-btn"> Comenzar</button>
+
+    <p>7º1 — 2026 - Programación VI</p>
+    
+  </div>
+
+  <div id="app" class="app">
+
+    <main class="game-main">
+      <div id="stage" class="stage">
+        <div id="viewport" class="viewport">
+          <div id="world" class="room-world"></div>
+        </div>
+        <div id="dialogue-box" class="dialogue-box">
+          <p id="dialogue-text"></p>
+          <span class="dialogue-cue">>siguiente</span>
+        </div>
+      </div>
+    </main>
+    
+
+    
+    <!-- carteles  -->
+    <section id="modal-presentacion" class="modal">
+      <article class="modal-panel">
+        <button class="modal-close" data-close>✕</button>
+        <div class="presentation-card">
+          <img class="avatar" src="assets/imagen.png" alt="Foto de perfil de Tu Nombre" onerror="this.onerror=null;this.src='assets/placeholder.svg';">
+          <div class="presentation-text">
+            <h2>Tu Nombre</h2>
+            <p class="role">Técnico/a en Informática · Desarrollador/a Web</p>
+            <p>Estudiante de 7mo año de la secundaria técnica, especializado en desarrollo front-end. Buscá la llave roja en esta sala para seguir explorando.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="modal-cv" class="modal">
+      <article class="modal-panel">
+        <button class="modal-close" data-close>✕</button>
+        <h2>Currículum</h2>
+
+        <div class="cv-block">
+          <h3>Formación académica</h3>
+          <table class="cv-table">
+            <thead>
+              <tr><th>Año</th><th>Institución</th><th>Título / Nivel</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>2021 – 2026</td><td>Escuela Técnica N°X</td><td>Técnico/a en Informática</td></tr>
+              <tr><td>2026</td><td>Curso online</td><td>Desarrollo Web con JavaScript</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="cv-block">
+          <h3>Conocimientos técnicos</h3>
+          <div class="skill-cards">
+            <div class="skill-card"><span class="skill-icon">HTML</span><p>Estructura semántica y accesible</p></div>
+            <div class="skill-card"><span class="skill-icon">CSS</span><p>Flexbox, box model, responsive</p></div>
+            <div class="skill-card"><span class="skill-icon">JS</span><p>Lógica, DOM, eventos</p></div>
+            <div class="skill-card"><span class="skill-icon">GIT</span><p>Control de versiones</p></div>
+          </div>
+        </div>
+
+        <div class="cv-block">
+          <h3>Habilidades</h3>
+          <ul class="skill-list">
+            <li>Resolución de problemas</li>
+            <li>Trabajo en equipo</li>
+            <li>Autoaprendizaje</li>
+            <li>Atención al detalle</li>
+          </ul>
+        </div>
+
+        <div class="cv-block">
+          <h3>Experiencia</h3>
+          <p>Proyecto integrador de Programación VI: diseño y desarrollo de este portafolio interactivo, incluyendo lógica de juego, colisiones y maquetado responsive.</p>
+        </div>
+      </article>
+    </section>
+
+    <section id="modal-proyectos" class="modal">
+      <article class="modal-panel">
+        <button class="modal-close" data-close>✕</button>
+        <h2>Proyectos</h2>
+        <div class="project-cards">
+          <article class="project-card">
+            <img src="assets/imagen.png" alt="Captura del proyecto Uno" onerror="this.onerror=null;this.src='assets/placeholder.svg';">
+            <h3>Proyecto Uno</h3>
+            <p>Breve descripción del proyecto y las tecnologías usadas.</p>
+          </article>
+          <article class="project-card">
+            <img src="assets/imagen.png" alt="Captura del proyecto Dos" onerror="this.onerror=null;this.src='assets/placeholder.svg';">
+            <h3>Proyecto Dos</h3>
+            <p>Breve descripción del proyecto y las tecnologías usadas.</p>
+          </article>
+          <article class="project-card">
+            <img src="assets/imagen.png" alt="Captura del proyecto Tres" onerror="this.onerror=null;this.src='assets/placeholder.svg';">
+            <h3>Proyecto Tres</h3>
+            <p>Breve descripción del proyecto y las tecnologías usadas.</p>
+          </article>
+        </div>
+      </article>
+    </section>
+
+    <section id="modal-contacto" class="modal">
+      <article class="modal-panel">
+        <button class="modal-close" data-close>✕</button>
+        <h2>Contacto</h2>
+        <div class="contact-wrap">
+          <ul class="contact-list">
+            <li>Email: <a href="mailto:tuemail@ejemplo.com">tuemail@ejemplo.com</a></li>
+            <li>LinkedIn: <a href="https://www.linkedin.com/in/tu-usuario" target="_blank" rel="noopener">linkedin.com/in/tu-usuario</a></li>
+            <li>GitHub: <a href="https://github.com/tu-usuario" target="_blank" rel="noopener">github.com/tu-usuario</a></li>
+          </ul>
+          <form class="contact-form">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
+            <button type="submit">Enviar</button>
+          </form>
+        </div>
+      </article>
+    </section>
+
+  </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
