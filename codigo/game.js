@@ -66,14 +66,14 @@ function sideWalls(lado, width, height, doorDef) {
 }
 
 function doorColorClass(requiere) {
-  if (!requiere) return 'locked-verde';
+  if (!requiere) return 'simple-door';
   return 'locked-' + requiere;
 }
 
 function buildDoorElement(p, width, height) {
   const center = p.pos * TILE;
   const cls = p.volver ? 'back-door' : doorColorClass(p.requiere);
-  const label = p.volver ? '‹' : '';
+  const label = p.volver ? '‹' : (p.requiere ? '' : '›');
   const requiere = p.requiere || '';
   const mensaje = p.mensaje || '';
   if (p.lado === 'izquierda') return door(cls, 0, center - DOOR_SPAN / 2, DOOR_THICK, DOOR_SPAN, p.destino, requiere, mensaje, label);
@@ -120,7 +120,7 @@ function crearSala(cfg) {
 
 const ROOMS = {
   presentacion: crearSala({
-    id: 'Tutorial',
+    id: 'presentacion',
     nombre: 'Tutorial',
     fondo: 'assets/bg-presentacion.png',
     tamaño: [120, 90],

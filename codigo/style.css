@@ -62,10 +62,32 @@ html, body {
   margin: 0;
 }
 
-.start-screen p {
+.start-contacto-label {
   position: absolute;
+  top: 20px;
+  right: 30px;
   max-width: 32em;
   color: var(--Vc);
+  margin: 0;
+}
+
+.start-contacto-email {
+  position: absolute;
+  top: 50px;
+  right: 30px;
+  max-width: 32em;
+  color: var(--Vc);
+  margin: 0;
+}
+
+.start-footer-legend {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 32em;
+  color: var(--Vc);
+  margin: 0;
 }
 
 #start-btn {
@@ -214,11 +236,16 @@ html, body {
 }
 .door.locked-roja { background: #e0526b; }
 .door.locked-azul { background: var(--accent-2); }
-.door.locked-verde { background: #8fd694; }
 .door.back-door {
   background: var(--panel-light);
   color: var(--text);
   border: 2px solid var(--wall);
+  font-size: 1rem;
+}
+.door.simple-door {
+  background: var(--panel-light);
+  color: var(--text);
+  border: 2px solid var(--accent-2);
   font-size: 1rem;
 }
 
