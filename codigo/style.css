@@ -1,16 +1,16 @@
-@font-face {
-  font-family: 'DisplayFont';
-  src: url('assets/Font_delta.ttf') format('woff2'),
-       url('assets/Font_delta.ttf') format('truetype');
-  font-display: swap;
-}
 
 @font-face {
-  font-family: 'BodyFont';
-   src: url('assets/Font_delta.ttf') format('woff2'),
-       url('assets/Font_delta.ttf') format('truetype');
+  font-family: 'DisplayFont';
+  src: url('assets/Font_delta.ttf') format('truetype');
   font-display: swap;
 }
+ 
+@font-face {
+  font-family: 'BodyFont';
+  src: url('assets/Font_delta.ttf') format('truetype');
+  font-display: swap;
+}
+ 
 
 :root {
   --bg: #fff4d6;
@@ -19,7 +19,7 @@
   --text: #4c5332;
   --accent: #ff5d8f;
   --accent-2: #5ee7df;
-  --gold: #989d67;
+  --Vc: #989d67;
   --wall: #3a2d54;
   --font-display: 'DisplayFont', 'Courier New', monospace;
   --font-body: 'BodyFont', 'Consolas', monospace;
@@ -37,6 +37,8 @@ html, body {
   overflow: hidden;
 }
 
+/* Pantalla de inicio */
+
 .start-screen {
   position: absolute;
   inset: 0;
@@ -49,8 +51,11 @@ html, body {
   text-align: center;
   padding: 2rem;
 }
+
 .start-screen h1 {
   position: absolute;
+  top: 20px;
+  left: 30px;
   font-family: var(--font-display);
   font-size: clamp(1.4rem, 5vw, 2.6rem);
   color: var(--text);
@@ -60,12 +65,13 @@ html, body {
 .start-screen p {
   position: absolute;
   max-width: 32em;
-  color: var(--gold);
+  color: var(--Vc);
 }
+
 #start-btn {
   font-family: var(--font-display);
   font-size: clamp(0.8rem, 2vw, 1rem);
-  background: var(--accent);
+  background: var(--Vc);
   color: var(--bg);
   border: none;
   padding: 0.9em 2em;
@@ -73,6 +79,7 @@ html, body {
   cursor: pointer;
   transition: transform 0.15s ease, background 0.15s ease;
 }
+
 #start-btn:hover {
   background: var(--accent-2);
   transform: translateY(-3px);
@@ -232,7 +239,7 @@ html, body {
 
 .terminal {
   position: absolute;
-  background: var(--gold);
+  background: var(--Vc);
   border: 2px solid var(--text);
   border-radius: 6px;
   display: flex;
@@ -339,7 +346,7 @@ html, body {
   color: var(--accent-2);
   margin-bottom: 0.4em;
 }
-.role { color: var(--gold); font-weight: 700; }
+.role { color: var(--Vc); font-weight: 700; }
 
 .cv-block { margin-bottom: 2.2rem; }
 .cv-block h3 {
@@ -384,7 +391,7 @@ html, body {
 .skill-icon {
   display: block;
   font-family: var(--font-display);
-  color: var(--gold);
+  color: var(--Vc);
   margin-bottom: 0.5em;
 }
 
