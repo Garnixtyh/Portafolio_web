@@ -53,6 +53,13 @@ html, body {
   box-sizing: border-box;
 }
 
+.yo { /*yo img*/
+ position: absolute;
+  right: 34px;
+  bottom: 35px;
+  scale: 1.2;
+}
+
 .start-logo { /* mi nombre */
   align-self: flex-start;
   margin: 0;
