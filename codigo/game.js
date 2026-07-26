@@ -13,6 +13,7 @@ const viewport = document.getElementById('viewport');
 const world = document.getElementById('world');
 const dialogueBox = document.getElementById('dialogue-box');
 const dialogueText = document.getElementById('dialogue-text');
+const roomTransition = document.getElementById('room-transition');
 
 const inventory = new Set();
 const pressedKeys = new Set();
@@ -22,6 +23,7 @@ let typing = false;
 let typeInterval = null;
 let modalOpen = false;
 let gameStarted = false;
+let transitioning = false;
 
 let currentRoomId = 'presentacion';
 let currentRoom = null;
@@ -219,6 +221,19 @@ function updateCamera() {
   world.style.transform = `translate(${-camX}px, ${-camY}px)`;
 }
 
+function transitionToRoom(id, entry) {
+  if (transitioning) return;
+  transitioning = true;
+  roomTransition.classList.add('active');
+  setTimeout(() => {
+    loadRoom(id, entry);
+    requestAnimationFrame(() => {
+      roomTransition.classList.remove('active');
+      setTimeout(() => { transitioning = false; }, 200);
+    });
+  }, 200);
+}
+
 function loadRoom(id, entry = 'playerStart') {
   const room = ROOMS[id];
   currentRoomId = id;
@@ -350,7 +365,7 @@ function checkInteractions() {
       const target = doorEl.dataset.target;
       const entry = doorEl.classList.contains('back-door') ? 'playerStartBack' : 'playerStart';
       if (!requires || inventory.has(requires)) {
-        loadRoom(target, entry);
+        transitionToRoom(target, entry);
       } else if (!dialogueActive) {
         startDialogue([doorEl.dataset.locked]);
       }
@@ -359,7 +374,7 @@ function checkInteractions() {
 }
 
 function gameLoop() {
-  if (gameStarted && !dialogueActive && !modalOpen) {
+  if (gameStarted && !dialogueActive && !modalOpen && !transitioning) {
     let dx = 0, dy = 0;
     if (pressedKeys.has('w')) dy -= player.speed;
     if (pressedKeys.has('s')) dy += player.speed;
