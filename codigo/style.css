@@ -18,7 +18,7 @@
   --panel-light: #59f113;
   --text: #4c5332;
   --accent: #ff5d8f;
-  --accent-2: #5ee7df;
+  --accent-2: #5ee7b9;
   --Vc: #989d67;
   --wall: #3a2d54;
   --font-display: 'DisplayFont', 'Courier New', monospace;
@@ -37,9 +37,10 @@ html, body {
   overflow: hidden;
 }
 
-/* Pantalla de inicio */
+/* Pantalla de inicio-------------------------------------------------------------------------------------------------*/
 
-.start-screen {
+
+.start-screen { /* general*/
   position: absolute;
   inset: 0;
   z-index: 100;
@@ -52,9 +53,40 @@ html, body {
   padding: 2rem;
 }
 
-.start-screen h1 {
+.start-contacto-icon { /*iconos de ig y artstation*/
+  position: absolute;
+  bottom: 20px;
+  max-width: 32em;
+  margin: 0;
+  border: none;
+  transition: transform 0.15s ease;
+}
+
+.start-contacto-icon :hover {
+  transform: translateY(-2px);
+  transform: scale(1.2); 
+}
+
+#contacto-artstation {
+  left: 50px;
+}
+
+#contacto-instagram {
+  left: 150px;
+}
+
+
+
+.start-logo { /* mi nombre */
   position: absolute;
   top: 20px;
+  left: 30px;
+  margin-bottom: 1.5rem;
+}
+
+.start-screen h1 {
+  position: absolute;
+  nav-down: 20px;
   left: 30px;
   font-family: var(--font-display);
   font-size: clamp(1.4rem, 5vw, 2.6rem);
@@ -62,20 +94,12 @@ html, body {
   margin: 0;
 }
 
-.start-contacto-label {
+.start-contacto-email { 
   position: absolute;
-  top: 20px;
-  right: 30px;
-  max-width: 32em;
-  color: var(--Vc);
-  margin: 0;
-}
-
-.start-contacto-email {
-  position: absolute;
-  top: 50px;
-  right: 30px;
-  max-width: 32em;
+  bottom: 200px;
+  left: 10px;
+  font-size: clamp(1.2rem, 2vw, 2rem);
+  text-align: left;
   color: var(--Vc);
   margin: 0;
 }
@@ -103,8 +127,8 @@ html, body {
 }
 
 #start-btn:hover {
-  background: var(--accent-2);
-  transform: translateY(-3px);
+  background: var(--text);
+  transform: scale(1.1);
 }
 
 .app {
@@ -135,7 +159,7 @@ html, body {
   font-family: var(--font-display);
   font-size: clamp(0.7rem, 1.6vw, 1rem);
 }
-.logo span { color: var(--accent-2); }
+.logo span { color: var(--text); }
 
 .hud-nav {
   display: flex;
