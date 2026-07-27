@@ -157,7 +157,7 @@ html, body {
   position: fixed;
   inset: 0;
   z-index: 90;
-  background: #082710;
+  background: var(--text);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s ease;
@@ -242,7 +242,7 @@ html, body {
   inset: 0;
   width: 960px;
   height: 540px;
-  background-color: #0d0b14;
+  background-color: var(--text);
   overflow: hidden;
 }
 
@@ -250,7 +250,7 @@ html, body {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #0d0b14;
+  background-color: var(--text);
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -417,6 +417,7 @@ html, body {
   border-radius: 50%;
   border: 4px solid var(--accent);
 }
+
 .presentation-text h2 {
   font-family: var(--font-display);
   font-size: clamp(1rem, 2.4vw, 1.5rem);
