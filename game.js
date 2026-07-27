@@ -1,6 +1,5 @@
 const WORLD_W = 960;
 const WORLD_H = 540;
-const TILE = 8;
 const THICK = 14;
 const DOOR_SPAN = 100;
 const DOOR_THICK = 20;
@@ -47,7 +46,7 @@ function sideWalls(lado, width, height, doorDef) {
   if (lado === 'arriba' || lado === 'abajo') {
     const y = lado === 'arriba' ? 0 : height - THICK;
     if (!doorDef) return [wall(0, y, width, THICK)];
-    const center = doorDef.pos * TILE;
+    const center = doorDef.pos;
     const gapStart = Math.max(0, center - DOOR_SPAN / 2);
     const gapEnd = Math.min(width, center + DOOR_SPAN / 2);
     const segs = [];
@@ -57,7 +56,7 @@ function sideWalls(lado, width, height, doorDef) {
   } else {
     const x = lado === 'izquierda' ? 0 : width - THICK;
     if (!doorDef) return [wall(x, 0, THICK, height)];
-    const center = doorDef.pos * TILE;
+    const center = doorDef.pos;
     const gapStart = Math.max(0, center - DOOR_SPAN / 2);
     const gapEnd = Math.min(height, center + DOOR_SPAN / 2);
     const segs = [];
@@ -73,7 +72,7 @@ function doorColorClass(requiere) {
 }
 
 function buildDoorElement(p, width, height) {
-  const center = p.pos * TILE;
+  const center = p.pos;
   const cls = p.volver ? 'back-door' : doorColorClass(p.requiere);
   const label = p.volver ? '‹' : (p.requiere ? '' : '›');
   const requiere = p.requiere || '';
@@ -85,9 +84,7 @@ function buildDoorElement(p, width, height) {
 }
 
 function crearSala(cfg) {
-  const [tilesX, tilesY] = cfg.tamaño;
-  const width = tilesX * TILE;
-  const height = tilesY * TILE;
+  const [width, height] = cfg.tamaño;
   const puertas = cfg.puertas || [];
   const doorsBySide = {};
   puertas.forEach(p => { doorsBySide[p.lado] = p; });
@@ -102,11 +99,11 @@ function crearSala(cfg) {
 
   const llaves = cfg.llaves || (cfg.llave ? [cfg.llave] : []);
   llaves.forEach(k => {
-    pieces.push(keyItem(k.color, k.x * TILE, k.y * TILE, `Conseguiste la llave ${k.color}.`));
+    pieces.push(keyItem(k.color, k.x, k.y, `Conseguiste la llave ${k.color}.`));
   });
 
   if (cfg.terminal) {
-    pieces.push(terminal(cfg.terminal.x * TILE, cfg.terminal.y * TILE, cfg.id));
+    pieces.push(terminal(cfg.terminal.x, cfg.terminal.y, cfg.id));
   }
 
   return {
@@ -124,45 +121,45 @@ const ROOMS = {
   presentacion: crearSala({
     id: 'presentacion',
     nombre: 'Tutorial',
-    fondo: 'assets/bg-presentacion.png',
-    tamaño: [120, 90],
-    terminal: { x: 18, y: 25 },
-    llave: { x: 52, y: 40, color: 'roja' },
+    fondo: 'assets/fondos/Tutorial.png',
+    tamaño: [960, 540],
+    terminal: { x: 144, y: 200 },
+    llave: { x: 416, y: 320, color: 'roja' },
     puertas: [
-      { lado: 'derecha', pos: 45, destino: 'cv', requiere: 'roja', mensaje: 'La puerta está cerrada. Necesitás la llave roja.' }
+      { lado: 'derecha', pos: 360, destino: 'cv', requiere: 'roja', mensaje: 'La puerta está cerrada. Necesitás la llave roja.' }
     ]
   }),
   cv: crearSala({
     id: 'cv',
     nombre: 'Currículum',
     fondo: 'assets/bg-cv.png',
-    tamaño: [150, 68],
-    terminal: { x: 30, y: 23 },
-    llave: { x: 65, y: 41, color: 'azul' },
+    tamaño: [1200, 544],
+    terminal: { x: 240, y: 184 },
+    llave: { x: 520, y: 328, color: 'azul' },
     puertas: [
-      { lado: 'izquierda', pos: 34, destino: 'presentacion', volver: true },
-      { lado: 'derecha', pos: 34, destino: 'proyectos', requiere: 'azul', mensaje: 'Necesitás la llave azul para entrar a Proyectos.' }
+      { lado: 'izquierda', pos: 272, destino: 'presentacion', volver: true },
+      { lado: 'derecha', pos: 272, destino: 'proyectos', requiere: 'azul', mensaje: 'Necesitás la llave azul para entrar a Proyectos.' }
     ]
   }),
   proyectos: crearSala({
     id: 'proyectos',
     nombre: 'Proyectos',
     fondo: 'assets/bg-proyectos.png',
-    tamaño: [100, 80],
-    terminal: { x: 42, y: 26 },
+    tamaño: [800, 640],
+    terminal: { x: 336, y: 208 },
     puertas: [
-      { lado: 'izquierda', pos: 40, destino: 'cv', volver: true },
-      { lado: 'derecha', pos: 40, destino: 'contacto' }
+      { lado: 'izquierda', pos: 320, destino: 'cv', volver: true },
+      { lado: 'derecha', pos: 320, destino: 'contacto' }
     ]
   }),
   contacto: crearSala({
     id: 'contacto',
     nombre: 'Contacto',
     fondo: 'assets/bg-contacto.png',
-    tamaño: [80, 60],
-    terminal: { x: 54, y: 27 },
+    tamaño: [640, 480],
+    terminal: { x: 432, y: 216 },
     puertas: [
-      { lado: 'izquierda', pos: 30, destino: 'proyectos', volver: true }
+      { lado: 'izquierda', pos: 240, destino: 'proyectos', volver: true }
     ]
   })
 };
@@ -229,9 +226,9 @@ function transitionToRoom(id, entry) {
     loadRoom(id, entry);
     requestAnimationFrame(() => {
       roomTransition.classList.remove('active');
-      setTimeout(() => { transitioning = false; }, 200);
+      setTimeout(() => { transitioning = false; }, 350);
     });
-  }, 200);
+  }, 350);
 }
 
 function loadRoom(id, entry = 'playerStart') {
