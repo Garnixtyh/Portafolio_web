@@ -24,7 +24,7 @@ let modalOpen = false;
 let gameStarted = false;
 let transitioning = false;
 
-let currentRoomId = 'presentacion';
+let currentRoomId = 'tutorial';
 let currentRoom = null;
 let player = { x: 60, y: 270, w: 40, h: 40, speed: 4.5 };
 let playerEl = null;
@@ -118,48 +118,50 @@ function crearSala(cfg) {
 }
 
 const ROOMS = {
-  presentacion: crearSala({
-    id: 'presentacion',
+  tutorial: crearSala({
+    id: 'tutorial',
     nombre: 'Tutorial',
     fondo: 'assets/fondos/Tutorial.png',
     tamaño: [960, 540],
+    puertas: [
+      { lado: 'derecha', pos: 360, destino: 'presentacion'}
+    ]
+  }),
+  presentacion: crearSala({
+    id: 'presentacion',
+    nombre: 'presentación',
+    fondo: 'assets/fondos/presentacion.png',
+    tamaño: [960, 540],
     terminal: { x: 144, y: 200 },
-    llave: { x: 416, y: 320, color: 'roja' },
     puertas: [
-      { lado: 'derecha', pos: 360, destino: 'cv', requiere: 'roja', mensaje: 'La puerta está cerrada. Necesitás la llave roja.' }
+      { lado: 'izquierda', pos: 272, destino: 'tutorial', volver: true },
+      { lado: 'derecha', pos: 272, destino: 'home' }
     ]
   }),
-  cv: crearSala({
-    id: 'cv',
-    nombre: 'Currículum',
-    fondo: 'assets/bg-cv.png',
-    tamaño: [1200, 544],
-    terminal: { x: 240, y: 184 },
-    llave: { x: 520, y: 328, color: 'azul' },
-    puertas: [
-      { lado: 'izquierda', pos: 272, destino: 'presentacion', volver: true },
-      { lado: 'derecha', pos: 272, destino: 'proyectos', requiere: 'azul', mensaje: 'Necesitás la llave azul para entrar a Proyectos.' }
-    ]
-  }),
-  proyectos: crearSala({
-    id: 'proyectos',
-    nombre: 'Proyectos',
-    fondo: 'assets/bg-proyectos.png',
-    tamaño: [800, 640],
+
+  home: crearSala({
+    id: 'home',
+    nombre: 'Home',
+    fondo: 'assets/fondos/home.png',
+    tamaño: [1000, 600],
     terminal: { x: 336, y: 208 },
     puertas: [
-      { lado: 'izquierda', pos: 320, destino: 'cv', volver: true },
-      { lado: 'derecha', pos: 320, destino: 'contacto' }
+      { lado: 'izquierda', pos: 270, destino: 'presentacion', volver: true },
+      { lado: 'arriba', pos: 320, destino: 'redroom' },
+      { lado: 'derecha', pos: 320, destino: 'proyectos', requiere: 'amarilla', mensaje: 'La puerta está cerrada. Necesitás la llave amarilla.' },
+      { lado: 'abajo', pos: 320, destino: 'habilidades', requiere: 'azul', mensaje: 'La puerta está cerrada. Necesitás la llave azul.' }
     ]
   }),
-  contacto: crearSala({
-    id: 'contacto',
-    nombre: 'Contacto',
-    fondo: 'assets/bg-contacto.png',
-    tamaño: [640, 480],
+
+  redroom: crearSala({
+    id: 'redroom',
+    nombre: 'Red Room',
+    fondo: 'assets/fondos/red_room.png',
+    tamaño: [960, 2160],
     terminal: { x: 432, y: 216 },
     puertas: [
-      { lado: 'izquierda', pos: 240, destino: 'proyectos', volver: true }
+      { lado: 'abajo', pos: 240, destino: 'home', volver: true },
+      
     ]
   })
 };
