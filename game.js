@@ -130,7 +130,7 @@ const ROOMS = {
   presentacion: crearSala({
     id: 'presentacion',
     nombre: 'presentación',
-    fondo: 'assets/fondos/presentacion.png',
+    fondo: 'assets/fondos/Presentacion.png',
     tamaño: [960, 540],
     terminal: { x: 144, y: 200 },
     puertas: [
