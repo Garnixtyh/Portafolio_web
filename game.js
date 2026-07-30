@@ -178,6 +178,15 @@ const ROOMS = {
   })
 };
 
+function preloadRoomBackgrounds() {
+  Object.values(ROOMS).forEach(room => {
+    const img = new Image();
+    img.src = room.background;
+  });
+}
+preloadRoomBackgrounds();
+
+
 function rectsOverlap(a, b) {
   return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 }
