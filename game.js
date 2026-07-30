@@ -3,6 +3,7 @@ const WORLD_H = 540;
 const THICK = 14;
 const DOOR_SPAN = 100;
 const DOOR_THICK = 20;
+const TRANSITION_MS = 650;
 
 const startScreen = document.getElementById('start-screen');
 const startBtn = document.getElementById('start-btn');
@@ -42,13 +43,21 @@ function terminal(x, y, modalId) {
   return `<div class="terminal" data-x="${x}" data-y="${y}" data-w="44" data-h="44" data-modal="${modalId}">i</div>`;
 }
 
+function doorSpan(doorDef) {
+  return (doorDef.tamaño && doorDef.tamaño[0]) || DOOR_SPAN;
+}
+function doorThick(doorDef) {
+  return (doorDef.tamaño && doorDef.tamaño[1]) || DOOR_THICK;
+}
+
 function sideWalls(lado, width, height, doorDef) {
   if (lado === 'arriba' || lado === 'abajo') {
     const y = lado === 'arriba' ? 0 : height - THICK;
     if (!doorDef) return [wall(0, y, width, THICK)];
+    const span = doorSpan(doorDef);
     const center = doorDef.pos;
-    const gapStart = Math.max(0, center - DOOR_SPAN / 2);
-    const gapEnd = Math.min(width, center + DOOR_SPAN / 2);
+    const gapStart = Math.max(0, center - span / 2);
+    const gapEnd = Math.min(width, center + span / 2);
     const segs = [];
     if (gapStart > 0) segs.push(wall(0, y, gapStart, THICK));
     if (gapEnd < width) segs.push(wall(gapEnd, y, width - gapEnd, THICK));
@@ -56,9 +65,10 @@ function sideWalls(lado, width, height, doorDef) {
   } else {
     const x = lado === 'izquierda' ? 0 : width - THICK;
     if (!doorDef) return [wall(x, 0, THICK, height)];
+    const span = doorSpan(doorDef);
     const center = doorDef.pos;
-    const gapStart = Math.max(0, center - DOOR_SPAN / 2);
-    const gapEnd = Math.min(height, center + DOOR_SPAN / 2);
+    const gapStart = Math.max(0, center - span / 2);
+    const gapEnd = Math.min(height, center + span / 2);
     const segs = [];
     if (gapStart > 0) segs.push(wall(x, 0, THICK, gapStart));
     if (gapEnd < height) segs.push(wall(x, gapEnd, THICK, height - gapEnd));
@@ -72,15 +82,17 @@ function doorColorClass(requiere) {
 }
 
 function buildDoorElement(p, width, height) {
+  const span = doorSpan(p);
+  const thick = doorThick(p);
   const center = p.pos;
   const cls = p.volver ? 'back-door' : doorColorClass(p.requiere);
   const label = p.volver ? '‹' : (p.requiere ? '' : '›');
   const requiere = p.requiere || '';
   const mensaje = p.mensaje || '';
-  if (p.lado === 'izquierda') return door(cls, 0, center - DOOR_SPAN / 2, DOOR_THICK, DOOR_SPAN, p.destino, requiere, mensaje, label);
-  if (p.lado === 'derecha') return door(cls, width - DOOR_THICK, center - DOOR_SPAN / 2, DOOR_THICK, DOOR_SPAN, p.destino, requiere, mensaje, label);
-  if (p.lado === 'arriba') return door(cls, center - DOOR_SPAN / 2, 0, DOOR_SPAN, DOOR_THICK, p.destino, requiere, mensaje, label);
-  return door(cls, center - DOOR_SPAN / 2, height - DOOR_THICK, DOOR_SPAN, DOOR_THICK, p.destino, requiere, mensaje, label);
+  if (p.lado === 'izquierda') return door(cls, 0, center - span / 2, thick, span, p.destino, requiere, mensaje, label);
+  if (p.lado === 'derecha') return door(cls, width - thick, center - span / 2, thick, span, p.destino, requiere, mensaje, label);
+  if (p.lado === 'arriba') return door(cls, center - span / 2, 0, span, thick, p.destino, requiere, mensaje, label);
+  return door(cls, center - span / 2, height - thick, span, thick, p.destino, requiere, mensaje, label);
 }
 
 function crearSala(cfg) {
@@ -124,7 +136,7 @@ const ROOMS = {
     fondo: 'assets/fondos/Tutorial.png',
     tamaño: [960, 540],
     puertas: [
-      { lado: 'derecha', pos: 360, destino: 'presentacion'}
+      { lado: 'derecha', pos: 380,tamaño: [290, 20], destino: 'presentacion'}
     ]
   }),
   presentacion: crearSala({
@@ -134,8 +146,8 @@ const ROOMS = {
     tamaño: [960, 540],
     terminal: { x: 144, y: 200 },
     puertas: [
-      { lado: 'izquierda', pos: 272, destino: 'tutorial', volver: true },
-      { lado: 'derecha', pos: 272, destino: 'home' }
+      { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'tutorial', volver: true },
+      { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'home' }
     ]
   }),
 
@@ -146,8 +158,8 @@ const ROOMS = {
     tamaño: [1000, 600],
     terminal: { x: 336, y: 208 },
     puertas: [
-      { lado: 'izquierda', pos: 270, destino: 'presentacion', volver: true },
-      { lado: 'arriba', pos: 320, destino: 'redroom' },
+      { lado: 'izquierda', pos: 380,tamaño: [290, 20], destino: 'presentacion', volver: true },
+      { lado: 'arriba', pos: 490,tamaño: [180, 290], destino: 'redroom' },
       { lado: 'derecha', pos: 320, destino: 'proyectos', requiere: 'amarilla', mensaje: 'La puerta está cerrada. Necesitás la llave amarilla.' },
       { lado: 'abajo', pos: 320, destino: 'habilidades', requiere: 'azul', mensaje: 'La puerta está cerrada. Necesitás la llave azul.' }
     ]
@@ -160,7 +172,7 @@ const ROOMS = {
     tamaño: [960, 2160],
     terminal: { x: 432, y: 216 },
     puertas: [
-      { lado: 'abajo', pos: 240, destino: 'home', volver: true },
+      { lado: 'abajo', pos: 340, destino: 'home', volver: true },
       
     ]
   })
@@ -228,9 +240,9 @@ function transitionToRoom(id, entry) {
     loadRoom(id, entry);
     requestAnimationFrame(() => {
       roomTransition.classList.remove('active');
-      setTimeout(() => { transitioning = false; }, 400);
+      setTimeout(() => { transitioning = false; }, TRANSITION_MS);
     });
-  }, 400);
+  }, TRANSITION_MS);
 }
 
 function loadRoom(id, entry = 'playerStart') {
@@ -397,12 +409,18 @@ function fitStage() {
 window.addEventListener('resize', fitStage);
 
 startBtn.addEventListener('click', () => {
-  startScreen.style.display = 'none';
-  app.classList.add('visible');
-  gameStarted = true;
-  fitStage();
-  loadRoom(currentRoomId);
-  updateInventoryHUD();
+  roomTransition.classList.add('active');
+  setTimeout(() => {
+    startScreen.style.display = 'none';
+    app.classList.add('visible');
+    gameStarted = true;
+    fitStage();
+    loadRoom(currentRoomId);
+    updateInventoryHUD();
+    requestAnimationFrame(() => {
+      roomTransition.classList.remove('active');
+    });
+  }, TRANSITION_MS);
 });
 
 requestAnimationFrame(gameLoop);
