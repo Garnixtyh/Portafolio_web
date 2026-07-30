@@ -228,9 +228,9 @@ function transitionToRoom(id, entry) {
     loadRoom(id, entry);
     requestAnimationFrame(() => {
       roomTransition.classList.remove('active');
-      setTimeout(() => { transitioning = false; }, 350);
+      setTimeout(() => { transitioning = false; }, 400);
     });
-  }, 350);
+  }, 400);
 }
 
 function loadRoom(id, entry = 'playerStart') {

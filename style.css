@@ -158,7 +158,7 @@ html, body {
   background: var(--verde_oscuro);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.65s ease;
 }
 .room-transition.active {
   opacity: 1;
