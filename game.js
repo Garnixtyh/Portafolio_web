@@ -27,7 +27,7 @@ let transitioning = false;
 
 let currentRoomId = 'tutorial';
 let currentRoom = null;
-let player = { x: 60, y: 270, w: 40, h: 40, speed: 4.5 };
+let player = { x: 60, y: 270, w: 40, h: 40, speed: 7 };
 let playerEl = null;
 
 function wall(x, y, w, h) {
@@ -160,8 +160,8 @@ const ROOMS = {
     puertas: [
       { lado: 'izquierda', pos: 380,tamaño: [290, 20], destino: 'presentacion', volver: true },
       { lado: 'arriba', pos: 490,tamaño: [180, 290], destino: 'redroom' },
-      { lado: 'derecha', pos: 320, destino: 'proyectos', requiere: 'amarilla', mensaje: 'La puerta está cerrada. Necesitás la llave amarilla.' },
-      { lado: 'abajo', pos: 320, destino: 'habilidades', requiere: 'azul', mensaje: 'La puerta está cerrada. Necesitás la llave azul.' }
+      { lado: 'derecha', pos: 320,tamaño: [190, 30], destino: 'proyectos', requiere: 'amarilla', mensaje: 'La puerta está cerrada. Necesitás la llave amarilla.' },
+      { lado: 'abajo', pos: 500, tamaño: [250, 30], destino: 'habilidades', requiere: 'azul', mensaje: 'La puerta está cerrada. Necesitás la llave azul.' }
     ]
   }),
 
@@ -177,6 +177,8 @@ const ROOMS = {
     ]
   })
 };
+
+// funcion que seguro voy a reciclar
 
 function preloadRoomBackgrounds() {
   Object.values(ROOMS).forEach(room => {

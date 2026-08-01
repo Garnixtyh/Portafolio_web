@@ -17,6 +17,7 @@
   --verde_oscuro: #4c5332;
   --rojo: #ff5d8f;
   --morado: #a55ee7;
+  --amarillo: #f5ce4f;
   --verde_claro: #989d67;
   --font-display: 'DisplayFont', 'Courier New', monospace;
   --font-body: 'BodyFont', 'Consolas', monospace;
@@ -284,6 +285,7 @@ html, body {
 }
 .door.locked-roja { background: #e0526b; }
 .door.locked-azul { background: var(--morado); }
+.door.locked-amarilla { background: var(--amarillo); }
 .door.back-door {
   background: var(--transparente);
   color: var(--verde_oscuro);
