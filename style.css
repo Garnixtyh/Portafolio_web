@@ -257,12 +257,9 @@ html, body {
 
 .player {
   position: absolute;
-  width: 40px;
-  height: 40px;
-  background: var(--rojo);
-  border: 2px solid var(--verde_oscuro);
-  border-radius: 4px;
-  z-index: 10;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  z-index: 2;
 }
 
 .wall {

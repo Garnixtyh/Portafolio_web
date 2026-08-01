@@ -27,8 +27,22 @@ let transitioning = false;
 
 let currentRoomId = 'tutorial';
 let currentRoom = null;
-let player = { x: 60, y: 270, w: 40, h: 40, speed: 7 };
+
+// w/h son la hitbox real (para colisiones). El tamaño visual del sprite es cosa del CSS, no de esto.
+let player = { x: 60, y: 270, w: 40, h: 40, speed: 7, dir: 'abajo', frame: 0, animTime: 0 };
 let playerEl = null;
+
+const PLAYER_SPRITE = {
+  src: 'assets/sprites/player_sprite-sheet.png',
+  frameWidth: 391,   // ancho real de cada frame en tu imagen
+  frameHeight: 555,  // alto real de cada frame en tu imagen
+  frameCount: 4,     // frames por columna (por animación)
+  frameDuration: 120, // ms que dura cada frame antes de pasar al siguiente
+  columnas: { abajo: 0, derecha: 1, izquierda: 2, arriba: 3 },
+  escala: 0.35,      // qué tan grande se ve el sprite en pantalla respecto a su tamaño real
+  offsetX: 0,        // ajuste manual en px: mové el sprite a la izquierda/derecha respecto a la hitbox
+  offsetY: 0         // ajuste manual en px: mové el sprite arriba/abajo respecto a la hitbox
+};
 
 function wall(x, y, w, h) {
   return `<div class="wall" data-x="${x}" data-y="${y}" data-w="${w}" data-h="${h}"></div>`;
@@ -214,14 +228,53 @@ function applyPositions() {
 function createPlayerEl() {
   playerEl = document.createElement('div');
   playerEl.className = 'player';
-  playerEl.style.width = player.w + 'px';
-  playerEl.style.height = player.h + 'px';
+  playerEl.style.backgroundImage = `url(${PLAYER_SPRITE.src})`;
+
+  const cols = Object.keys(PLAYER_SPRITE.columnas).length;
+  const spriteW = PLAYER_SPRITE.frameWidth * PLAYER_SPRITE.escala;
+  const spriteH = PLAYER_SPRITE.frameHeight * PLAYER_SPRITE.escala;
+  const sheetW = PLAYER_SPRITE.frameWidth * cols * PLAYER_SPRITE.escala;
+  const sheetH = PLAYER_SPRITE.frameHeight * PLAYER_SPRITE.frameCount * PLAYER_SPRITE.escala;
+
+  playerEl.style.width = spriteW + 'px';
+  playerEl.style.height = spriteH + 'px';
+  playerEl.style.backgroundSize = `${sheetW}px ${sheetH}px`;
+
   world.appendChild(playerEl);
 }
 
 function renderPlayer() {
-  playerEl.style.left = player.x + 'px';
-  playerEl.style.top = player.y + 'px';
+  const spriteW = PLAYER_SPRITE.frameWidth * PLAYER_SPRITE.escala;
+  const spriteH = PLAYER_SPRITE.frameHeight * PLAYER_SPRITE.escala;
+  const left = player.x + (player.w - spriteW) / 2 + PLAYER_SPRITE.offsetX;
+  const top = player.y + (player.h - spriteH) + PLAYER_SPRITE.offsetY;
+  playerEl.style.left = left + 'px';
+  playerEl.style.top = top + 'px';
+}
+
+function directionFromInput(dx, dy) {
+  if (dy < 0) return 'arriba';
+  if (dy > 0) return 'abajo';
+  if (dx < 0) return 'izquierda';
+  if (dx > 0) return 'derecha';
+  return player.dir;
+}
+
+function updatePlayerAnimation(dt, moving) {
+  if (moving) {
+    player.animTime += dt;
+    if (player.animTime >= PLAYER_SPRITE.frameDuration) {
+      player.animTime -= PLAYER_SPRITE.frameDuration;
+      player.frame = (player.frame + 1) % PLAYER_SPRITE.frameCount;
+    }
+  } else {
+    player.frame = 0;
+    player.animTime = 0;
+  }
+  const col = PLAYER_SPRITE.columnas[player.dir];
+  const offsetX = -col * PLAYER_SPRITE.frameWidth * PLAYER_SPRITE.escala;
+  const offsetY = -player.frame * PLAYER_SPRITE.frameHeight * PLAYER_SPRITE.escala;
+  playerEl.style.backgroundPosition = `${offsetX}px ${offsetY}px`;
 }
 
 function clamp(value, min, max) {
@@ -395,20 +448,29 @@ function checkInteractions() {
   });
 }
 
-function gameLoop() {
+let lastFrameTime = null;
+
+function gameLoop(now) {
+  const dt = lastFrameTime === null ? 16 : now - lastFrameTime;
+  lastFrameTime = now;
+
+  let moving = false;
   if (gameStarted && !dialogueActive && !modalOpen && !transitioning) {
     let dx = 0, dy = 0;
     if (pressedKeys.has('w')) dy -= player.speed;
     if (pressedKeys.has('s')) dy += player.speed;
     if (pressedKeys.has('a')) dx -= player.speed;
     if (pressedKeys.has('d')) dx += player.speed;
-    if (dx !== 0 || dy !== 0) {
+    moving = dx !== 0 || dy !== 0;
+    if (moving) {
+      player.dir = directionFromInput(dx, dy);
       tryMove(dx, dy);
       renderPlayer();
       updateCamera();
       checkInteractions();
     }
   }
+  if (playerEl) updatePlayerAnimation(dt, moving);
   requestAnimationFrame(gameLoop);
 }
 
