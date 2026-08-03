@@ -15,6 +15,33 @@ const dialogueBox = document.getElementById('dialogue-box');
 const dialogueText = document.getElementById('dialogue-text');
 const roomTransition = document.getElementById('room-transition');
 
+const MUSICA_MENU = 'assets/audio/dialtone.ogg';
+
+const audioPlayer = new Audio();
+audioPlayer.loop = true;
+audioPlayer.volume = 0.6;
+let currentTrack = null;
+
+function playTrack(src) {
+  if (!src || src === currentTrack) return;
+  currentTrack = src;
+  audioPlayer.src = src;
+  audioPlayer.currentTime = 0;
+  audioPlayer.play().catch(() => {});
+}
+
+function unlockAudioOnce() {
+  if (audioPlayer.paused && audioPlayer.src) {
+    audioPlayer.play().catch(() => {});
+  }
+  window.removeEventListener('pointerdown', unlockAudioOnce);
+  window.removeEventListener('keydown', unlockAudioOnce);
+}
+window.addEventListener('pointerdown', unlockAudioOnce);
+window.addEventListener('keydown', unlockAudioOnce);
+
+playTrack(MUSICA_MENU);
+
 const inventory = new Set();
 const pressedKeys = new Set();
 let dialogueQueue = [];
@@ -28,21 +55,35 @@ let transitioning = false;
 let currentRoomId = 'tutorial';
 let currentRoom = null;
 
-// w/h son la hitbox real (para colisiones). El tamaño visual del sprite es cosa del CSS, no de esto.
-let player = { x: 60, y: 270, w: 40, h: 40, speed: 7, dir: 'abajo', frame: 0, animTime: 0 };
+
+let player = { x: 60, y: 270, w: 40, h: 40, speed: 5, dir: 'abajo', frame: 0, animTime: 0 };
 let playerEl = null;
 
 const PLAYER_SPRITE = {
-  src: 'assets/sprites/player_sprite-sheet.png',
-  frameWidth: 391,   // ancho real de cada frame en tu imagen
-  frameHeight: 555,  // alto real de cada frame en tu imagen
-  frameCount: 4,     // frames por columna (por animación)
-  frameDuration: 120, // ms que dura cada frame antes de pasar al siguiente
+  src: 'assets/sprites/player/player_sprite-sheet.png',
+  frameWidth: 391,   
+  frameHeight: 555,
+  frameCount: 4,     
+  frameDuration: 120, 
   columnas: { abajo: 0, derecha: 1, izquierda: 2, arriba: 3 },
-  escala: 0.35,      // qué tan grande se ve el sprite en pantalla respecto a su tamaño real
-  offsetX: 0,        // ajuste manual en px: mové el sprite a la izquierda/derecha respecto a la hitbox
-  offsetY: 0         // ajuste manual en px: mové el sprite arriba/abajo respecto a la hitbox
+  escala: 0.35,      
+  offsetX: 0,       
+  offsetY: 0         
 };
+
+const PLAYER_SPRITE_VARIANTS = {
+  normal: 'assets/sprites/player/player_sprite-sheet.png',
+  escalada: 'assets/sprites/player/player_escalada.png'
+};
+
+let currentSpriteVariant = 'normal';
+
+function setPlayerSpriteVariant(key) {
+  if (currentSpriteVariant === key) return;
+  currentSpriteVariant = key;
+  PLAYER_SPRITE.src = PLAYER_SPRITE_VARIANTS[key];
+  if (playerEl) playerEl.style.backgroundImage = `url(${PLAYER_SPRITE.src})`;
+}
 
 function wall(x, y, w, h) {
   return `<div class="wall" data-x="${x}" data-y="${y}" data-w="${w}" data-h="${h}"></div>`;
@@ -55,6 +96,9 @@ function keyItem(color, x, y, msg) {
 }
 function terminal(x, y, modalId) {
   return `<div class="terminal" data-x="${x}" data-y="${y}" data-w="44" data-h="44" data-modal="${modalId}">i</div>`;
+}
+function climbWall(x, y, w, h) {
+  return `<div class="climb-wall" data-x="${x}" data-y="${y}" data-w="${w}" data-h="${h}"></div>`;
 }
 
 function doorSpan(doorDef) {
@@ -109,6 +153,16 @@ function buildDoorElement(p, width, height) {
   return door(cls, center - span / 2, height - thick, span, thick, p.destino, requiere, mensaje, label);
 }
 
+const ENTRY_MARGIN = 30;
+
+function spawnNearDoor(p, width, height) {
+  const center = p.pos;
+  if (p.lado === 'izquierda') return { x: THICK + ENTRY_MARGIN, y: center - player.h / 2 };
+  if (p.lado === 'derecha') return { x: width - THICK - ENTRY_MARGIN - player.w, y: center - player.h / 2 };
+  if (p.lado === 'arriba') return { x: center - player.w / 2, y: THICK + ENTRY_MARGIN };
+  return { x: center - player.w / 2, y: height - THICK - ENTRY_MARGIN - player.h };
+}
+
 function crearSala(cfg) {
   const [width, height] = cfg.tamaño;
   const puertas = cfg.puertas || [];
@@ -132,14 +186,25 @@ function crearSala(cfg) {
     pieces.push(terminal(cfg.terminal.x, cfg.terminal.y, cfg.id));
   }
 
+  const paredesEscalada = cfg.paredesEscalada || [];
+  paredesEscalada.forEach(w => {
+    pieces.push(climbWall(w.x, w.y, w.w, w.h));
+  });
+
+  const entradas = {};
+  puertas.forEach(p => {
+    entradas[p.destino] = spawnNearDoor(p, width, height);
+  });
+
   return {
     name: cfg.nombre,
     background: cfg.fondo,
+    musica: cfg.musica,
     width,
     height,
     maze: pieces.join(''),
-    playerStart: { x: 60, y: height / 2 },
-    playerStartBack: { x: width - 140, y: Math.min(height - 60, height / 2 + 80) }
+    entradas,
+    playerStartDefault: { x: 60, y: height / 2 }
   };
 }
 
@@ -148,6 +213,7 @@ const ROOMS = {
     id: 'tutorial',
     nombre: 'Tutorial',
     fondo: 'assets/fondos/Tutorial.png',
+    musica: 'assets/audio/Shop.ogg',
     tamaño: [960, 540],
     puertas: [
       { lado: 'derecha', pos: 380,tamaño: [290, 20], destino: 'presentacion'}
@@ -168,6 +234,7 @@ const ROOMS = {
   home: crearSala({
     id: 'home',
     nombre: 'Home',
+    musica: 'assets/audio/Fireplace.ogg',
     fondo: 'assets/fondos/home.png',
     tamaño: [1000, 600],
     terminal: { x: 336, y: 208 },
@@ -188,6 +255,9 @@ const ROOMS = {
     puertas: [
       { lado: 'abajo', pos: 340, destino: 'home', volver: true },
       
+    ],
+    paredesEscalada: [
+      { x: 460, y: 900, w: 40, h: 600 }
     ]
   })
 };
@@ -296,12 +366,12 @@ function updateCamera() {
   world.style.transform = `translate(${-camX}px, ${-camY}px)`;
 }
 
-function transitionToRoom(id, entry) {
+function transitionToRoom(id, fromRoomId) {
   if (transitioning) return;
   transitioning = true;
   roomTransition.classList.add('active');
   setTimeout(() => {
-    loadRoom(id, entry);
+    loadRoom(id, fromRoomId);
     requestAnimationFrame(() => {
       roomTransition.classList.remove('active');
       setTimeout(() => { transitioning = false; }, TRANSITION_MS);
@@ -309,7 +379,7 @@ function transitionToRoom(id, entry) {
   }, TRANSITION_MS);
 }
 
-function loadRoom(id, entry = 'playerStart') {
+function loadRoom(id, fromRoomId) {
   const room = ROOMS[id];
   currentRoomId = id;
   currentRoom = room;
@@ -317,9 +387,10 @@ function loadRoom(id, entry = 'playerStart') {
   world.style.width = room.width + 'px';
   world.style.height = room.height + 'px';
   world.style.backgroundImage = `url(${room.background})`;
+  playTrack(room.musica);
   applyPositions();
   createPlayerEl();
-  const spawn = room[entry] || room.playerStart;
+  const spawn = (fromRoomId && room.entradas[fromRoomId]) || room.playerStartDefault;
   player.x = spawn.x;
   player.y = spawn.y;
   renderPlayer();
@@ -438,14 +509,19 @@ function checkInteractions() {
     if (rectsOverlap(playerRect, elRect(doorEl))) {
       const requires = doorEl.dataset.requires;
       const target = doorEl.dataset.target;
-      const entry = doorEl.classList.contains('back-door') ? 'playerStartBack' : 'playerStart';
       if (!requires || inventory.has(requires)) {
-        transitionToRoom(target, entry);
+        transitionToRoom(target, currentRoomId);
       } else if (!dialogueActive) {
         startDialogue([doorEl.dataset.locked]);
       }
     }
   });
+
+  let touchingClimbWall = false;
+  world.querySelectorAll('.climb-wall').forEach(w => {
+    if (rectsOverlap(playerRect, elRect(w))) touchingClimbWall = true;
+  });
+  setPlayerSpriteVariant(touchingClimbWall ? 'escalada' : 'normal');
 }
 
 let lastFrameTime = null;

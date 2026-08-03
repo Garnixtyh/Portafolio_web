@@ -267,6 +267,11 @@ html, body {
   background: var(--transparente);
   border: 2px solid var(--transparente);
 }
+.climb-wall {
+  position: absolute;
+  background: var(--amarillo);
+  border: 2px solid var(--amarillo);
+}
 
 .door {
   position: absolute;
