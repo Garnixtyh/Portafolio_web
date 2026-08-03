@@ -56,7 +56,7 @@ let currentRoomId = 'tutorial';
 let currentRoom = null;
 
 
-let player = { x: 60, y: 270, w: 40, h: 40, speed: 5, dir: 'abajo', frame: 0, animTime: 0 };
+let player = { x: 60, y: 270, w: 40, h: 40, speed: 7, dir: 'abajo', frame: 0, animTime: 0 };
 let playerEl = null;
 
 const PLAYER_SPRITE = {
@@ -159,7 +159,7 @@ function spawnNearDoor(p, width, height) {
   const center = p.pos;
   if (p.lado === 'izquierda') return { x: THICK + ENTRY_MARGIN, y: center - player.h / 2 };
   if (p.lado === 'derecha') return { x: width - THICK - ENTRY_MARGIN - player.w, y: center - player.h / 2 };
-  if (p.lado === 'arriba') return { x: center - player.w / 2, y: THICK + ENTRY_MARGIN };
+  if (p.lado === 'arriba') return { x: center - player.w / 2, y: center - 200 };
   return { x: center - player.w / 2, y: height - THICK - ENTRY_MARGIN - player.h };
 }
 
@@ -253,7 +253,7 @@ const ROOMS = {
     tamaño: [960, 2160],
     terminal: { x: 432, y: 216 },
     puertas: [
-      { lado: 'abajo', pos: 340, destino: 'home', volver: true },
+      { lado: 'abajo', pos: 490, destino: 'home', volver: true },
       
     ],
     paredesEscalada: [
