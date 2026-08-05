@@ -30,6 +30,8 @@ function playTrack(src) {
   audioPlayer.play().catch(() => {});
 }
 
+
+
 function unlockAudioOnce() {
   if (audioPlayer.paused && audioPlayer.src) {
     audioPlayer.play().catch(() => {});
@@ -76,6 +78,8 @@ const PLAYER_SPRITE_VARIANTS = {
   escalada: 'assets/sprites/player/player_escalada.png'
 };
 
+const PRELOAD_IMAGES = new Set();
+
 let currentSpriteVariant = 'normal';
 
 function setPlayerSpriteVariant(key) {
@@ -91,15 +95,25 @@ function wall(x, y, w, h) {
 function door(cls, x, y, w, h, target, requires, locked, label) {
   return `<div class="door ${cls}" data-x="${x}" data-y="${y}" data-w="${w}" data-h="${h}" data-target="${target}" data-requires="${requires}" data-locked="${locked}">${label}</div>`;
 }
-function keyItem(color, x, y, msg) {
-  return `<div class="key-item key-${color}" data-x="${x}" data-y="${y}" data-w="26" data-h="26" data-key="${color}" data-msg="${msg}"></div>`;
+function keyItem(color, x, y, w, h, msg, sprite) {
+  const style = sprite ? ` style="background-image:url('${sprite}')"` : '';
+  return `<div class="key-item key-${color}" data-x="${x}" data-y="${y}" data-w="${w}" data-h="${h}" data-key="${color}" data-msg="${msg}"${style}></div>`;
 }
-function terminal(x, y, modalId) {
-  return `<div class="terminal" data-x="${x}" data-y="${y}" data-w="44" data-h="44" data-modal="${modalId}">i</div>`;
+function terminal(x, y, w, h, cfg) {
+  const label = cfg.sprite ? '' : 'i';
+  const zIndex = Math.round(y + h);
+  const bgImage = cfg.sprite ? `background-image:url('${cfg.sprite}');` : '';
+  const style = ` style="${bgImage}z-index:${zIndex};"`;
+  const modalAttr = cfg.modal ? ` data-modal="${cfg.modal}"` : '';
+  const mensajeAttr = cfg.mensaje
+    ? ` data-mensaje="${encodeURIComponent(JSON.stringify(Array.isArray(cfg.mensaje) ? cfg.mensaje : [cfg.mensaje]))}"`
+    : '';
+  return `<div class="terminal" data-x="${x}" data-y="${y}" data-w="${w}" data-h="${h}"${modalAttr}${mensajeAttr}${style}>${label}</div>`;
 }
 function climbWall(x, y, w, h) {
   return `<div class="climb-wall" data-x="${x}" data-y="${y}" data-w="${w}" data-h="${h}"></div>`;
 }
+
 
 function doorSpan(doorDef) {
   return (doorDef.tamaño && doorDef.tamaño[0]) || DOOR_SPAN;
@@ -159,7 +173,7 @@ function spawnNearDoor(p, width, height) {
   const center = p.pos;
   if (p.lado === 'izquierda') return { x: THICK + ENTRY_MARGIN, y: center - player.h / 2 };
   if (p.lado === 'derecha') return { x: width - THICK - ENTRY_MARGIN - player.w, y: center - player.h / 2 };
-  if (p.lado === 'arriba') return { x: center - player.w / 2, y: center - 200 };
+  if (p.lado === 'arriba') return { x: center - player.w / 2, y: center - player.h /2 };
   return { x: center - player.w / 2, y: height - THICK - ENTRY_MARGIN - player.h };
 }
 
@@ -179,17 +193,33 @@ function crearSala(cfg) {
 
   const llaves = cfg.llaves || (cfg.llave ? [cfg.llave] : []);
   llaves.forEach(k => {
-    pieces.push(keyItem(k.color, k.x, k.y, `Conseguiste la llave ${k.color}.`));
+    const sprite = k.sprite || `assets/sprites/objetos/llave_${k.color}.png`;
+    const w = (k.tamaño && k.tamaño[0]) || 26;
+    const h = (k.tamaño && k.tamaño[1]) || 26;
+    pieces.push(keyItem(k.color, k.x, k.y, w, h, `Conseguiste la llave ${k.color}.`, sprite));
+    PRELOAD_IMAGES.add(sprite);
   });
 
-  if (cfg.terminal) {
-    pieces.push(terminal(cfg.terminal.x, cfg.terminal.y, cfg.id));
-  }
+  const terminales = cfg.terminales || (cfg.terminal ? (Array.isArray(cfg.terminal) ? cfg.terminal : [cfg.terminal]) : []);
+  terminales.forEach(t => {
+    const sprite = t.sprite || 'assets/sprites/objetos/terminal.png';
+    const w = t.w || 44;
+    const h = t.h || 44;
+    const modalId = t.modal === false ? null : (typeof t.modal === 'string' ? t.modal : cfg.id);
+    pieces.push(terminal(t.x, t.y, w, h, { sprite, modal: modalId, mensaje: t.mensaje }));
+    PRELOAD_IMAGES.add(sprite);
+  });
 
   const paredesEscalada = cfg.paredesEscalada || [];
   paredesEscalada.forEach(w => {
     pieces.push(climbWall(w.x, w.y, w.w, w.h));
   });
+
+  const paredes = cfg.paredes || [];
+  paredes.forEach(w => {
+    pieces.push(wall(w.x, w.y, w.w, w.h));
+  });
+
 
   const entradas = {};
   puertas.forEach(p => {
@@ -213,11 +243,14 @@ const ROOMS = {
     id: 'tutorial',
     nombre: 'Tutorial',
     fondo: 'assets/fondos/Tutorial.png',
-    musica: 'assets/audio/Shop.ogg',
+    musica: 'assets/audio/shop.ogg',
     tamaño: [960, 540],
     puertas: [
       { lado: 'derecha', pos: 380,tamaño: [290, 20], destino: 'presentacion'}
-    ]
+    ],
+     paredes: [
+      { x: 0, y: 0, w: 960, h: 230 },
+    ],
   }),
   presentacion: crearSala({
     id: 'presentacion',
@@ -228,22 +261,43 @@ const ROOMS = {
     puertas: [
       { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'tutorial', volver: true },
       { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'home' }
-    ]
+    ],
+      paredes: [
+      { x: 0, y: 0, w: 960, h: 230 },
+    ],
   }),
 
   home: crearSala({
     id: 'home',
     nombre: 'Home',
-    musica: 'assets/audio/Fireplace.ogg',
+    musica: 'assets/audio/fireplace.ogg',
     fondo: 'assets/fondos/home.png',
     tamaño: [1000, 600],
-    terminal: { x: 336, y: 208 },
+
+    terminal: [{
+      h: 141 *1.2, w:131 *1.2,
+      x: 700, y: 250,
+      mensaje: 'si pasar por las puertas quieres.. las llaves deberas buscar..',
+      sprite: 'assets/sprites/home/viejo.png',                                            
+      },
+      {
+      h: 143 , w:100,
+      x: 400, y: 300,
+      mensaje: 'el fuego invade tu cara, te sientes mas reconfortado',
+      sprite: 'assets/sprites/home/fuego_home.png',                                            
+      }
+    ],
+    llave: { x: 500, y: 250, color: 'amarilla', tamaño: [177 /1.5, 153 /1.5] ,sprite: 'assets/sprites/llave_amarilla.png' },
+   
     puertas: [
       { lado: 'izquierda', pos: 380,tamaño: [290, 20], destino: 'presentacion', volver: true },
       { lado: 'arriba', pos: 490,tamaño: [180, 290], destino: 'redroom' },
       { lado: 'derecha', pos: 320,tamaño: [190, 30], destino: 'proyectos', requiere: 'amarilla', mensaje: 'La puerta está cerrada. Necesitás la llave amarilla.' },
-      { lado: 'abajo', pos: 500, tamaño: [250, 30], destino: 'habilidades', requiere: 'azul', mensaje: 'La puerta está cerrada. Necesitás la llave azul.' }
-    ]
+      { lado: 'abajo', pos: 500, tamaño: [250, 30], destino: 'lila_room', requiere: 'morada', mensaje: 'La puerta está cerrada. Necesitás la llave morada.' }
+    ],
+    paredes: [
+      { x: 0, y: 0, w: 1000, h: 280 },
+    ],
   }),
 
   redroom: crearSala({
@@ -251,26 +305,213 @@ const ROOMS = {
     nombre: 'Red Room',
     fondo: 'assets/fondos/red_room.png',
     tamaño: [960, 2160],
-    terminal: { x: 432, y: 216 },
+    terminal: { 
+      x: 100, y: 1900,
+      w: 170, h: 120,
+      sprite: 'assets/sprites/cartel_rojo.png',
+      mensaje: 'usar los ladrillos que sobre salen debes, para asi poder avanzar al objetivo'
+      },
     puertas: [
       { lado: 'abajo', pos: 490, destino: 'home', volver: true },
+      { lado: 'arriba', pos: 490,tamaño: [180, 30], destino: 'key_room' },
       
     ],
+    paredes: [
+      { x: 0, y: 1500, w: 440, h: 350 },
+
+      { x: 560, y: 1620, w: 390, h: 240 },
+      { x: 440, y: 1500, w: 300, h: 60 },
+
+      { x: 640, y: 400, w: 100, h: 1100 },
+      { x: 0, y: 400, w: 700, h: 40 },
+      { x: 800, y: 400, w: 100, h: 1400 },
+    ],
     paredesEscalada: [
-      { x: 460, y: 900, w: 40, h: 600 }
+      { x: 460, y: 1500, w: 90, h: 350 },
+      { x: 460, y: 1500, w: 400, h: 100 },
+      { x: 730, y: 400, w: 100, h: 1100 },
     ]
-  })
+  }),
+
+  key_room: crearSala({
+    id: 'key_room',
+    nombre: 'key_room',
+    fondo: 'assets/fondos/key_room.png',
+    tamaño: [960, 540],
+    terminal: {
+      h: 104, w:143,
+      x: 420, y: -10,
+      sprite: 'assets/sprites/home/fuego_home.png',                                            
+    },
+    llave: { x: 440, y: 250, color: 'morada', tamaño: [177 /1.5, 153 /1.5] ,sprite: 'assets/sprites/llave_morada.png' },
+    puertas: [
+      { lado: 'abajo', pos: 490, destino:'redroom' , volver: true },
+      { lado: 'arriba', pos: 490,tamaño:[100,80] , destino: 'home'}
+    ]
+  }),
+  
+  lila_room: crearSala({
+    id: 'lila_room',
+    nombre: 'lila_room',
+    fondo: 'assets/fondos/lila_room.png',
+    tamaño: [960, 540],
+    terminal: {
+      h: 91 *1.2 , w:152 *1.2,
+      x: 700, y: 40,
+      mensaje:'me dieron este chupetin en la sala del lado, queres ? comprate!! xP',
+      sprite: 'assets/sprites/bati.png',                                            
+    },
+    puertas: [
+      { lado: 'arriba', pos: 150,tamaño:[230,30] , destino: 'home'},
+      { lado: 'derecha', pos: 250,tamaño:[230,30] , destino: 'proyectada'}
+    ]
+  }),
+
+  proyectada: crearSala({
+    id: 'proyectada',
+    nombre: 'proyectada',
+    fondo: 'assets/fondos/proyectada.png',
+    tamaño: [960, 540],
+    terminal: {
+      h: 132, w:136,
+      x: 400, y: 320,
+      sprite: 'assets/sprites/silla.png',                        
+    },
+    puertas: [
+      { lado: 'izquierda', pos: 250,tamaño:[230,30] , destino: 'lila_room'}
+    ],
+    
+    paredes: [
+      { x: 0, y: 0, w: 950, h: 200 },
+    ],
+  
+  }),
+
+  proyectos: crearSala({
+    id: 'proyectos',
+    nombre: 'proyectos',
+    fondo: 'assets/fondos/yellow_room.png',
+    tamaño: [1920, 540],
+    terminal: {
+      h: 132, w:136,
+      x: 240, y: 320,
+      sprite: 'assets/sprites/cuadro_amarrillo.png',                        
+    },
+    puertas: [
+      { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'home', volver: true },
+      { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'bocetos' }
+    ],
+    
+    paredes: [
+      { x: 0, y: 0, w: 950, h: 200 },
+    ],
+  
+  }),
+
+  bocetos: crearSala({
+    id: 'bocetos',
+    nombre: 'bocetos',
+    fondo: 'assets/fondos/yellow_room2.png',
+    tamaño: [960, 540],
+    terminal: {
+      h: 132, w:136,
+      x: 240, y: 320,
+      sprite: 'assets/sprites/cuadro_amarrillo.png',                        
+    },
+    puertas: [
+      { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'proyectos', volver: true },
+      { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'sala_asensor' }
+    ],
+    
+    paredes: [
+      { x: 0, y: 0, w: 950, h: 300 },
+    ],
+  
+  }),
+
+  sala_asensor: crearSala({
+    id: 'sala_asensor',
+    nombre: 'sala_asensor',
+    fondo: 'assets/fondos/asensor.png',
+    tamaño: [960, 540],
+    
+    puertas: [
+      { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'bocetos', volver: true },
+      { lado: 'arriba',pos: 480,tamaño: [200, 330], destino: 'camino' }
+    ],
+    
+    paredes: [
+      { x: 0, y: 0, w: 950, h: 300 },
+    ],
+  
+  }),
+
+  camino: crearSala({
+    id: 'camino',
+    nombre: 'camino',
+    fondo: 'assets/fondos/creditos.png',
+    tamaño: [960, 1620],
+    
+    puertas: [
+      { lado: 'arriba',pos: 380,tamaño: [290, 20], destino: 'formulario' },
+      { lado: 'abajo',pos: 480,tamaño: [40, 20], destino: 'sala_asensor' }
+    ],
+    
+    paredes: [
+      { x: 0, y: 0, w: 450, h: 1620 },
+      { x: 500, y: 0, w: 450, h: 1620 },
+    ],
+  
+  }),
+
+   formulario: crearSala({
+    id: 'formulario',
+    nombre: 'formulario',
+    fondo: 'assets/fondos/formulario.png',
+    tamaño: [960, 540],
+    
+    puertas: [
+      { lado: 'arriba',pos: 380,tamaño: [290, 20], destino: 'camino' }
+    ],
+    
+    paredes: [
+      { x: 0, y: 0, w: 860, h: 350 },
+      { x: 860, y: 0, w: 100, h: 540 }
+        
+    ],
+  
+  }),
+
+
 };
 
 // funcion que seguro voy a reciclar
 
-function preloadRoomBackgrounds() {
+function preloadAssets() {
+  const images = new Set(PRELOAD_IMAGES);
   Object.values(ROOMS).forEach(room => {
+    if (room.background) images.add(room.background);
+  });
+  Object.values(PLAYER_SPRITE_VARIANTS).forEach(src => images.add(src));
+
+  images.forEach(src => {
     const img = new Image();
-    img.src = room.background;
+    img.src = src;
+  });
+
+  const audios = new Set();
+  Object.values(ROOMS).forEach(room => {
+    if (room.musica) audios.add(room.musica);
+  });
+  audios.add(MUSICA_MENU);
+
+  audios.forEach(src => {
+    const audio = new Audio();
+    audio.preload = 'auto';
+    audio.src = src;
   });
 }
-preloadRoomBackgrounds();
+preloadAssets();
 
 
 function rectsOverlap(a, b) {
@@ -320,6 +561,7 @@ function renderPlayer() {
   const top = player.y + (player.h - spriteH) + PLAYER_SPRITE.offsetY;
   playerEl.style.left = left + 'px';
   playerEl.style.top = top + 'px';
+  playerEl.style.zIndex = Math.round(player.y + player.h);
 }
 
 function directionFromInput(dx, dy) {
@@ -400,7 +642,14 @@ function loadRoom(id, fromRoomId) {
 
 function attachRoomEvents() {
   world.querySelectorAll('.terminal').forEach(term => {
-    term.addEventListener('click', () => openModal(term.dataset.modal));
+    term.addEventListener('click', () => {
+      if (term.dataset.mensaje) {
+        const lineas = JSON.parse(decodeURIComponent(term.dataset.mensaje));
+        startDialogue(lineas);
+      } else if (term.dataset.modal) {
+        openModal(term.dataset.modal);
+      }
+    });
   });
 }
 

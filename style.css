@@ -52,6 +52,7 @@ html, body {
 }
 
 .yo { /*yo img*/
+  image-rendering: pixelated;
  position: absolute;
   right: 34px;
   bottom: 35px;
@@ -75,6 +76,8 @@ html, body {
 }
 
 .start-logo { /* mi nombre */
+
+  image-rendering: pixelated;
   align-self: flex-start;
   margin: 0;
   animation: menu-slide-left-to-right 0.6s ease-out both;
@@ -133,6 +136,8 @@ html, body {
 }
 
 .start-contacto-icon { /*iconos de ig y artstation*/
+
+  image-rendering: pixelated;
   margin: 0;
   border: none;
   background: none;
@@ -253,24 +258,24 @@ html, body {
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
+  image-rendering: pixelated;
 }
 
 .player {
   position: absolute;
   background-repeat: no-repeat;
   image-rendering: pixelated;
-  z-index: 2;
 }
 
 .wall {
   position: absolute;
-  background: var(--transparente);
+  background: var(--verde_claro);
   border: 2px solid var(--transparente);
 }
 .climb-wall {
   position: absolute;
-  background: var(--amarillo);
-  border: 2px solid var(--amarillo);
+  background: var(--transparente);
+  border: 2px solid var(--transparente);
 }
 
 .door {
@@ -285,7 +290,6 @@ html, body {
   border-radius: 4px;
   cursor: pointer;
 }
-.door.locked-roja { background: #e0526b; }
 .door.locked-azul { background: var(--morado); }
 .door.locked-amarilla { background: var(--amarillo); }
 .door.back-door {
@@ -303,33 +307,36 @@ html, body {
 
 .key-item {
   position: absolute;
-  transform: rotate(45deg);
-  border: 2px solid var(--verde_oscuro);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   animation: pulse 1.2s ease-in-out infinite;
   cursor: pointer;
 }
-.key-roja { background: #e0526b; }
-.key-azul { background: var(--morado); }
+
 
 @keyframes pulse {
-  0%, 100% { transform: rotate(45deg) scale(1); }
-  50% { transform: rotate(45deg) scale(1.25); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
 }
 
 .terminal {
   position: absolute;
-  background: var(--verde_claro);
-  border: 2px solid var(--verde_oscuro);
-  border-radius: 6px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
   font-size: 0.55rem;
-  color: var(--blanco_bg);
   cursor: pointer;
 }
-.terminal:hover { filter: brightness(1.15); }
+.terminal:hover { 
+  filter: brightness(1.15); 
+  transform: scale(1.02,1.02);
+
+}
 
 .dialogue-box {
   display: none;
