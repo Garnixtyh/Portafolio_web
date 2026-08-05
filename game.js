@@ -173,7 +173,7 @@ function spawnNearDoor(p, width, height) {
   const center = p.pos;
   if (p.lado === 'izquierda') return { x: THICK + ENTRY_MARGIN, y: center - player.h / 2 };
   if (p.lado === 'derecha') return { x: width - THICK - ENTRY_MARGIN - player.w, y: center - player.h / 2 };
-  if (p.lado === 'arriba') return { x: center - player.w / 2, y: center - player.h /2 };
+  if (p.lado === 'arriba') return { x: center - player.w / 2, y: center - 130 };
   return { x: center - player.w / 2, y: height - THICK - ENTRY_MARGIN - player.h };
 }
 
@@ -314,7 +314,7 @@ const ROOMS = {
       },
     puertas: [
       { lado: 'abajo', pos: 490, destino: 'home', volver: true },
-      { lado: 'arriba', pos: 490,tamaño: [180, 30], destino: 'key_room' },
+      { lado: 'arriba', pos: 490, tamaño: [160, 20], destino: 'key_room' },
       
     ],
     paredes: [
@@ -363,7 +363,7 @@ const ROOMS = {
       sprite: 'assets/sprites/bati.png',                                            
     },
     puertas: [
-      { lado: 'arriba', pos: 150,tamaño:[230,30] , destino: 'home'},
+      { lado: 'arriba', pos: 150,tamaño:[230,20] , destino: 'home'},
       { lado: 'derecha', pos: 250,tamaño:[230,30] , destino: 'proyectada'}
     ]
   }),
@@ -472,7 +472,7 @@ const ROOMS = {
     tamaño: [960, 540],
     
     puertas: [
-      { lado: 'arriba',pos: 380,tamaño: [290, 20], destino: 'camino' }
+      { lado: 'abajo',pos: 380,tamaño: [20, 10], destino: 'camino' }
     ],
     
     paredes: [
