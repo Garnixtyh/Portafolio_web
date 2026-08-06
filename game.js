@@ -245,25 +245,33 @@ const ROOMS = {
     fondo: 'assets/fondos/Tutorial.png',
     musica: 'assets/audio/shop.ogg',
     tamaño: [960, 540],
+
     puertas: [
       { lado: 'derecha', pos: 380,tamaño: [290, 20], destino: 'presentacion'}
     ],
      paredes: [
-      { x: 0, y: 0, w: 960, h: 230 },
+       { x: 0, y: 0, w: 960, h: 230 },
     ],
   }),
+
   presentacion: crearSala({
     id: 'presentacion',
     nombre: 'presentación',
     fondo: 'assets/fondos/Presentacion.png',
     tamaño: [960, 540],
-    terminal: { x: 144, y: 200 },
+     terminal: [{
+      h: 224 , w:309 ,
+      x: 350, y: 50,
+      sprite: 'assets/sprites/cartel_precentacion.png',                                            
+      modalOpen: 'elpep' ,  
+    }],
+
     puertas: [
       { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'tutorial', volver: true },
       { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'home' }
     ],
-      paredes: [
-      { x: 0, y: 0, w: 960, h: 230 },
+      paredes: [{ x: 0, y: 220, w: 960, h: 50 },
+     
     ],
   }),
 
@@ -276,13 +284,14 @@ const ROOMS = {
 
     terminal: [{
       h: 141 *1.2, w:131 *1.2,
-      x: 700, y: 250,
+      x: 600, y: 250,
       mensaje: 'si pasar por las puertas quieres.. las llaves deberas buscar..',
       sprite: 'assets/sprites/home/viejo.png',                                            
       },
+
       {
       h: 143 , w:100,
-      x: 400, y: 300,
+      x: 450, y: 300,
       mensaje: 'el fuego invade tu cara, te sientes mas reconfortado',
       sprite: 'assets/sprites/home/fuego_home.png',                                            
       }
@@ -297,7 +306,8 @@ const ROOMS = {
     ],
     paredes: [
       { x: 0, y: 0, w: 1000, h: 280 },
-      { h: 141 *1.2, w:131 *1.2, x: 700, y: 250 },
+      { h: 60, w:110 , x: 650, y: 360 },
+       { h: 60, w:110 , x: 450, y: 400 },
     ],
   }),
 
