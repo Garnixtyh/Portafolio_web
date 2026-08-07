@@ -254,6 +254,8 @@ function crearSala(cfg) {
       paredes: [
         { x: 0, y: 0, w: 960, h: 230 },
       ],
+      llave: { x: 500, y: 250, color: 'amarilla', tamaño: [177 /1.5, 153 /1.5] ,sprite: 'assets/sprites/llave_amarilla.png' },
+      
     }),
 
     presentacion: crearSala({
@@ -297,7 +299,6 @@ function crearSala(cfg) {
         sprite: 'assets/sprites/home/fuego_home.png',                                            
         }
       ],  
-      llave: { x: 500, y: 250, color: 'amarilla', tamaño: [177 /1.5, 153 /1.5] ,sprite: 'assets/sprites/llave_amarilla.png' },
       puertas: [
         { lado: 'izquierda', pos: 380,tamaño: [290, 20], destino: 'presentacion', volver: true },
         { lado: 'arriba', pos: 490,tamaño: [180, 290], destino: 'redroom' },
@@ -425,6 +426,7 @@ function crearSala(cfg) {
       nombre: 'proyectada',
       fondo: 'assets/fondos/proyectada.png',
       tamaño: [960, 540],
+      llave: { x: 500, y: 250, color: 'amarilla', tamaño: [177 /1.5, 153 /1.5] ,sprite: 'assets/sprites/llave_amarilla.png' },
       terminal:[ {
         h: 132, w:136,
         x: 400, y: 320,
