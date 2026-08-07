@@ -253,9 +253,7 @@ function crearSala(cfg) {
       ],
       paredes: [
         { x: 0, y: 0, w: 960, h: 230 },
-      ],
-      llave: { x: 500, y: 250, color: 'amarilla', tamaño: [177 /1.5, 153 /1.5] ,sprite: 'assets/sprites/llave_amarilla.png' },
-      
+      ] 
     }),
 
     presentacion: crearSala({
@@ -273,8 +271,6 @@ function crearSala(cfg) {
         { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'tutorial', volver: true },
         { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'home' }
       ],
-      llave: { x: 500, y: 250, color: 'morada', tamaño: [177 /1.5, 153 /1.5] ,sprite: 'assets/sprites/llave_amarilla.png' },
-    
      paredes: [{ x: 0, y: 220, w: 960, h: 50 } ],
     }),
 
