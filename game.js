@@ -453,19 +453,22 @@ function crearSala(cfg) {
       { // bro bots ----------------------------///
         w: 498/1.2, h: 359/1.2,
         x: 200, y: 0,
-        sprite: 'assets/sprites/cuadro_brobots.png',              
+        sprite: 'assets/sprites/cuadro_brobots.png',       
+        modal: 'brobots'       
       },
 
       { /// policards --------------------------///
         w: 498 /1.2, h: 359/1.2,
         x: 750, y: 0,
-        sprite: 'assets/sprites/cuadro_policards.png',             
+        sprite: 'assets/sprites/cuadro_policards.png',  
+         modal: 'policard'           
       },
 
       { /// bananzas factory --------------------///
         w: 498/1.2, h: 359/1.2,
         x: 1300, y: 0,
-        sprite: 'assets/sprites/cuadro_bananzas_factory.png',              
+        sprite: 'assets/sprites/cuadro_bananzas_factory.png',
+        modal: 'bananza'               
       },
       ],
 

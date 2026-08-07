@@ -1,3 +1,5 @@
+
+/* fuente*/
 @font-face {
   font-family: 'DisplayFont';
   src: url('assets/Font_delta.ttf') format('truetype');
@@ -9,7 +11,9 @@
   src: url('assets/Font_delta.ttf') format('truetype');
   font-display: swap;
 }
- 
+
+
+/* colores :v*/ 
 
 :root {
   --transparente: #384b3002;
@@ -68,20 +72,7 @@ html, body {
   animation: menu-slide-right-to-left 0.6s ease-out both;
 }
 
-@keyframes menu-fade-up {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
-@keyframes menu-slide-left-to-right {
-  from { opacity: 0; transform: translateX(-60px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes menu-slide-right-to-left {
-  from { opacity: 0; transform: translateX(60px); }
-  to { opacity: 1; transform: translateX(0); }
-}
 
 .start-logo { /* mi nombre */
 
@@ -157,6 +148,24 @@ html, body {
 .start-contacto-icon:hover {
   transform: scale(1.2,0.9);
 }
+
+/* Animaciones -------------------------------------------------------------------------------------------------*/
+@keyframes menu-fade-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes menu-slide-left-to-right {
+  from { opacity: 0; transform: translateX(-60px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes menu-slide-right-to-left {
+  from { opacity: 0; transform: translateX(60px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+
 
 .app {
   display: none;
@@ -321,7 +330,7 @@ html, body {
 
 
 
-/* Modal styles -------------------------------------------------------------------------------------------------*/
+/* Modal  -------------------------------------------------------------------------------------------------*/
 .modal {
   display: none;
   position: fixed;
@@ -386,6 +395,35 @@ html, body {
    animation: menu-fade-up 0.6s ease-out both;
 }
 
+.brobots-panel {
+  position: relative;
+  width: 200%;
+  overflow-y: auto;
+  background: var(--morado_claro);
+  border: 3px solid var(--morado_oscuro);
+  border-radius: 10px;
+  padding: 2rem;
+   animation: menu-fade-up 0.6s ease-out both;
+}
+
+.brologo-img{
+  width: 80%;
+  height: 60%;
+  transform: translate(-50%, -50%);
+  animation: menu-slide-left-to-right 0.6s ease-out both;
+  image-rendering: pixelated;
+}
+
+.brobots-img{
+  position: relative;
+  bottom: 0%;
+  left: 50%;
+  width: 40%;
+  height: 70%;
+  transform: translate(-50%, -50%);
+  animation: menu-slide-left-to-right 0.6s ease-out both;
+  image-rendering: pixelated;
+}
 
 .imagen-modal {
   display: block;
