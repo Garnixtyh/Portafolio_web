@@ -237,264 +237,264 @@ function crearSala(cfg) {
     playerStartDefault: { x: 60, y: height / 2 }
   };
 }
+//--------------------------------salas------------------------------------//
+  const ROOMS = {
 
-const ROOMS = {
-  tutorial: crearSala({
-    id: 'tutorial',
-    nombre: 'Tutorial',
-    fondo: 'assets/fondos/Tutorial.png',
-    musica: 'assets/audio/shop.ogg',
-    tamaño: [960, 540],
 
-    puertas: [
-      { lado: 'derecha', pos: 380,tamaño: [290, 20], destino: 'presentacion'}
-    ],
-     paredes: [
-       { x: 0, y: 0, w: 960, h: 230 },
-    ],
-  }),
+    tutorial: crearSala({
+      id: 'tutorial',
+      nombre: 'Tutorial',
+      fondo: 'assets/fondos/Tutorial.png',
+      musica: 'assets/audio/shop.ogg',
+      tamaño: [960, 540],
 
-  presentacion: crearSala({
-    id: 'presentacion',
-    nombre: 'presentación',
-    fondo: 'assets/fondos/Presentacion.png',
-    tamaño: [960, 540],
-     terminal: [{
-      h: 224 , w:309 ,
-      x: 350, y: 50,
-      sprite: 'assets/sprites/cartel_precentacion.png',                                            
-      modalOpen: 'elpep' ,  
-    }],
+      puertas: [
+        { lado: 'derecha', pos: 380,tamaño: [290, 20], destino: 'presentacion'}
+      ],
+      paredes: [
+        { x: 0, y: 0, w: 960, h: 230 },
+      ],
+    }),
 
-    puertas: [
-      { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'tutorial', volver: true },
-      { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'home' }
-    ],
-      paredes: [{ x: 0, y: 220, w: 960, h: 50 },
-     
-    ],
-  }),
+    presentacion: crearSala({
+      id: 'presentacion',
+      nombre: 'presentación',
+      fondo: 'assets/fondos/Presentacion.png',
+      tamaño: [960, 540],
+      terminal: [{
+        h: 224 , w:309 ,
+        x: 350, y: 50,
+        sprite: 'assets/sprites/cartel_precentacion.png',                                            
+        modalOpen: 'elpep' ,  
+      }],
+      puertas: [
+        { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'tutorial', volver: true },
+        { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'home' }
+      ],
+     paredes: [{ x: 0, y: 220, w: 960, h: 50 } ],
+    }),
 
-  home: crearSala({
-    id: 'home',
-    nombre: 'Home',
-    musica: 'assets/audio/fireplace.ogg',
-    fondo: 'assets/fondos/home.png',
-    tamaño: [1000, 600],
+    home: crearSala({
+      id: 'home',
+      nombre: 'Home',
+      musica: 'assets/audio/fireplace.ogg',
+      fondo: 'assets/fondos/home.png',
+      tamaño: [1000, 600],
 
-    terminal: [{
-      h: 141 *1.2, w:131 *1.2,
-      x: 600, y: 250,
-      mensaje: 'si pasar por las puertas quieres.. las llaves deberas buscar..',
-      sprite: 'assets/sprites/home/viejo.png',                                            
-      },
+      terminal: [{
+        h: 141 *1.2, w:131 *1.2,
+        x: 600, y: 250,
+        mensaje: 'si pasar por las puertas quieres.. las llaves deberas buscar..',
+        sprite: 'assets/sprites/home/viejo.png',                                            
+        },
 
-      {
-      h: 143 , w:100,
-      x: 450, y: 300,
-      mensaje: 'el fuego invade tu cara, te sientes mas reconfortado',
-      sprite: 'assets/sprites/home/fuego_home.png',                                            
-      }
-    ],
-    llave: { x: 500, y: 250, color: 'amarilla', tamaño: [177 /1.5, 153 /1.5] ,sprite: 'assets/sprites/llave_amarilla.png' },
-   
-    puertas: [
-      { lado: 'izquierda', pos: 380,tamaño: [290, 20], destino: 'presentacion', volver: true },
-      { lado: 'arriba', pos: 490,tamaño: [180, 290], destino: 'redroom' },
-      { lado: 'derecha', pos: 320,tamaño: [190, 30], destino: 'proyectos', requiere: 'amarilla', mensaje: 'La puerta está cerrada. Necesitás la llave amarilla.' },
-      { lado: 'abajo', pos: 500, tamaño: [250, 30], destino: 'lila_room', requiere: 'morada', mensaje: 'La puerta está cerrada. Necesitás la llave morada.' }
-    ],
-    paredes: [
-      { x: 0, y: 0, w: 1000, h: 280 },
-      { h: 60, w:110 , x: 650, y: 360 },
-       { h: 60, w:110 , x: 450, y: 400 },
-    ],
-  }),
-
-  redroom: crearSala({
-    id: 'redroom',
-    nombre: 'Red Room',
-    fondo: 'assets/fondos/red_room.png',
-    tamaño: [960, 2160],
-    terminal: { 
-      x: 100, y: 1900,
-      w: 170, h: 120,
-      sprite: 'assets/sprites/cartel_rojo.png',
-      mensaje: 'usar los ladrillos que sobre salen debes, para asi poder avanzar al objetivo'
-      },
-    puertas: [
-      { lado: 'abajo', pos: 490, destino: 'home', volver: true },
-      { lado: 'arriba', pos: 490, tamaño: [160, 20], destino: 'key_room' },
-      
-    ],
-    paredes: [
-      { x: 0, y: 1500, w: 440, h: 350 },
-
-      { x: 560, y: 1620, w: 390, h: 240 },
-      { x: 440, y: 1500, w: 300, h: 60 },
-
-      { x: 640, y: 400, w: 100, h: 1100 },
-      { x: 0, y: 400, w: 700, h: 40 },
-      { x: 800, y: 400, w: 100, h: 1400 },
-    ],
-    paredesEscalada: [
-      { x: 460, y: 1500, w: 90, h: 350 },
-      { x: 460, y: 1500, w: 400, h: 100 },
-      { x: 730, y: 400, w: 100, h: 1100 },
-    ]
-  }),
-
-  key_room: crearSala({
-    id: 'key_room',
-    nombre: 'key_room',
-    fondo: 'assets/fondos/key_room.png',
-    tamaño: [960, 540],
-    terminal: {
-      h: 104, w:143,
-      x: 420, y: -10,
-      sprite: 'assets/sprites/home/fuego_home.png',                                            
-    },
-    llave: { x: 440, y: 250, color: 'morada', tamaño: [177 /1.5, 153 /1.5] ,sprite: 'assets/sprites/llave_morada.png' },
-    puertas: [
-      { lado: 'abajo', pos: 490, destino:'redroom' , volver: true },
-      { lado: 'arriba', pos: 490,tamaño:[100,80] , destino: 'home'}
-    ]
-  }),
-  
-  lila_room: crearSala({
-    id: 'lila_room',
-    nombre: 'lila_room',
-    fondo: 'assets/fondos/lila_room.png',
-    tamaño: [960, 540],
-    terminal: {
-      h: 91 *1.2 , w:152 *1.2,
-      x: 700, y: 40,
-      mensaje:'me dieron este chupetin en la sala del lado, queres ? comprate!! xP',
-      sprite: 'assets/sprites/bati.png',                                            
-    },
-    puertas: [
-      { lado: 'arriba', pos: 150,tamaño:[230,20] , destino: 'home'},
-      { lado: 'derecha', pos: 250,tamaño:[230,30] , destino: 'proyectada'}
-    ]
-  }),
-
-  proyectada: crearSala({
-    id: 'proyectada',
-    nombre: 'proyectada',
-    fondo: 'assets/fondos/proyectada.png',
-    tamaño: [960, 540],
-    terminal: {
-      h: 132, w:136,
-      x: 400, y: 320,
-      sprite: 'assets/sprites/silla.png',                        
-    },
-    puertas: [
-      { lado: 'izquierda', pos: 250,tamaño:[230,30] , destino: 'lila_room'}
-    ],
+        {
+        h: 143 , w:100,
+        x: 450, y: 300,
+        mensaje: 'el fuego invade tu cara, te sientes mas reconfortado',
+        sprite: 'assets/sprites/home/fuego_home.png',                                            
+        }
+      ],
+      llave: { x: 500, y: 250, color: 'amarilla', tamaño: [177 /1.5, 153 /1.5] ,sprite: 'assets/sprites/llave_amarilla.png' },
     
-    paredes: [
-      { x: 0, y: 0, w: 950, h: 200 },
-    ],
-  
-  }),
+      puertas: [
+        { lado: 'izquierda', pos: 380,tamaño: [290, 20], destino: 'presentacion', volver: true },
+        { lado: 'arriba', pos: 490,tamaño: [180, 290], destino: 'redroom' },
+        { lado: 'derecha', pos: 320,tamaño: [190, 30], destino: 'proyectos', requiere: 'amarilla', mensaje: 'La puerta está cerrada. Necesitás la llave amarilla.' },
+        { lado: 'abajo', pos: 500, tamaño: [250, 30], destino: 'lila_room', requiere: 'morada', mensaje: 'La puerta está cerrada. Necesitás la llave morada.' }
+      ],
+      paredes: [
+        { x: 0, y: 0, w: 1000, h: 280 },
+        { h: 60, w:110 , x: 650, y: 360 },
+        { h: 60, w:110 , x: 450, y: 400 },
+      ],
+    }),
 
-  proyectos: crearSala({
-    id: 'proyectos',
-    nombre: 'proyectos',
-    fondo: 'assets/fondos/yellow_room.png',
-    tamaño: [1920, 540],
-    terminal: {
-      h: 132, w:136,
-      x: 240, y: 320,
-      sprite: 'assets/sprites/cuadro_amarrillo.png',                        
-    },
-    puertas: [
-      { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'home', volver: true },
-      { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'bocetos' }
-    ],
-    
-    paredes: [
-      { x: 0, y: 0, w: 950, h: 200 },
-    ],
-  
-  }),
-
-  bocetos: crearSala({
-    id: 'bocetos',
-    nombre: 'bocetos',
-    fondo: 'assets/fondos/yellow_room2.png',
-    tamaño: [960, 540],
-    terminal: {
-      h: 132, w:136,
-      x: 240, y: 320,
-      sprite: 'assets/sprites/cuadro_amarrillo.png',                        
-    },
-    puertas: [
-      { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'proyectos', volver: true },
-      { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'sala_asensor' }
-    ],
-    
-    paredes: [
-      { x: 0, y: 0, w: 950, h: 300 },
-    ],
-  
-  }),
-
-  sala_asensor: crearSala({
-    id: 'sala_asensor',
-    nombre: 'sala_asensor',
-    fondo: 'assets/fondos/asensor.png',
-    tamaño: [960, 540],
-    
-    puertas: [
-      { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'bocetos', volver: true },
-      { lado: 'arriba',pos: 480,tamaño: [200, 330], destino: 'camino' }
-    ],
-    
-    paredes: [
-      { x: 0, y: 0, w: 950, h: 300 },
-    ],
-  
-  }),
-
-  camino: crearSala({
-    id: 'camino',
-    nombre: 'camino',
-    fondo: 'assets/fondos/creditos.png',
-    tamaño: [960, 1620],
-    
-    puertas: [
-      { lado: 'arriba',pos: 380,tamaño: [290, 20], destino: 'formulario' },
-      { lado: 'abajo',pos: 480,tamaño: [40, 20], destino: 'sala_asensor' }
-    ],
-    
-    paredes: [
-      { x: 0, y: 0, w: 450, h: 1620 },
-      { x: 500, y: 0, w: 450, h: 1620 },
-    ],
-  
-  }),
-
-   formulario: crearSala({
-    id: 'formulario',
-    nombre: 'formulario',
-    fondo: 'assets/fondos/formulario.png',
-    tamaño: [960, 540],
-    
-    puertas: [
-      { lado: 'abajo',pos: 380,tamaño: [20, 10], destino: 'camino' }
-    ],
-    
-    paredes: [
-      { x: 0, y: 0, w: 860, h: 350 },
-      { x: 860, y: 0, w: 100, h: 540 }
+    redroom: crearSala({
+      id: 'redroom',
+      nombre: 'Red Room',
+      fondo: 'assets/fondos/red_room.png',
+      tamaño: [960, 2160],
+      terminal: { 
+        x: 100, y: 1900,
+        w: 170, h: 120,
+        sprite: 'assets/sprites/cartel_rojo.png',
+        mensaje: 'usar los ladrillos que sobre salen debes, para asi poder avanzar al objetivo'
+        },
+      puertas: [
+        { lado: 'abajo', pos: 490, destino: 'home', volver: true },
+        { lado: 'arriba', pos: 490, tamaño: [160, 20], destino: 'key_room' },
         
-    ],
-  
-  }),
+      ],
+      paredes: [
+        { x: 0, y: 1500, w: 440, h: 350 },
+
+        { x: 560, y: 1620, w: 390, h: 240 },
+        { x: 440, y: 1500, w: 300, h: 60 },
+
+        { x: 640, y: 400, w: 100, h: 1100 },
+        { x: 0, y: 400, w: 700, h: 40 },
+        { x: 800, y: 400, w: 100, h: 1400 },
+      ],
+      paredesEscalada: [
+        { x: 460, y: 1500, w: 90, h: 350 },
+        { x: 460, y: 1500, w: 400, h: 100 },
+        { x: 730, y: 400, w: 100, h: 1100 },
+      ]
+    }),
+
+    key_room: crearSala({
+      id: 'key_room',
+      nombre: 'key_room',
+      fondo: 'assets/fondos/key_room.png',
+      tamaño: [960, 540],
+      terminal: {
+        h: 104, w:143,
+        x: 420, y: -10,
+        sprite: 'assets/sprites/home/fuego_home.png',                                            
+      },
+      llave: { x: 440, y: 250, color: 'morada', tamaño: [177 /1.5, 153 /1.5] ,sprite: 'assets/sprites/llave_morada.png' },
+      puertas: [
+        { lado: 'abajo', pos: 490, destino:'redroom' , volver: true },
+        { lado: 'arriba', pos: 490,tamaño:[100,80] , destino: 'home'}
+      ]
+    }),
+    
+    lila_room: crearSala({
+      id: 'lila_room',
+      nombre: 'lila_room',
+      fondo: 'assets/fondos/lila_room.png',
+      musica: 'assets/audio/circus.ogg',
+      tamaño: [960, 540],
+      terminal: {
+        h: 91 *1.2 , w:152 *1.2,
+        x: 700, y: 40,
+        mensaje:'me dieron este chupetin en la sala del lado, queres ? comprate!! xP',
+        sprite: 'assets/sprites/bati.png',                                            
+      },
+      puertas: [
+        { lado: 'arriba', pos: 150,tamaño:[230,20] , destino: 'home'},
+        { lado: 'derecha', pos: 250,tamaño:[230,30] , destino: 'proyectada'}
+      ]
+    }),
+
+    proyectada: crearSala({
+      id: 'proyectada',
+      nombre: 'proyectada',
+      fondo: 'assets/fondos/proyectada.png',
+      tamaño: [960, 540],
+      terminal: {
+        h: 132, w:136,
+        x: 400, y: 320,
+        sprite: 'assets/sprites/silla.png',                        
+      },
+      puertas: [
+        { lado: 'izquierda', pos: 250,tamaño:[230,30] , destino: 'lila_room'}
+      ],
+      
+      paredes: [
+        { x: 0, y: 0, w: 950, h: 200 },
+      ],
+    
+    }),
+
+    proyectos: crearSala({
+      id: 'proyectos',
+      nombre: 'proyectos',
+      fondo: 'assets/fondos/yellow_room.png',
+      tamaño: [1920, 540],
+      terminal: {
+        h: 132, w:136,
+        x: 240, y: 320,
+        sprite: 'assets/sprites/cuadro_amarrillo.png',                        
+      },
+      puertas: [
+        { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'home', volver: true },
+        { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'bocetos' }
+      ],
+      
+      paredes: [
+        { x: 0, y: 0, w: 950, h: 200 },
+      ],
+    
+    }),
+
+    bocetos: crearSala({
+      id: 'bocetos',
+      nombre: 'bocetos',
+      fondo: 'assets/fondos/yellow_room2.png',
+      tamaño: [960, 540],
+      terminal: {
+        h: 132, w:136,
+        x: 240, y: 320,
+        sprite: 'assets/sprites/cuadro_amarrillo.png',                        
+      },
+      puertas: [
+        { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'proyectos', volver: true },
+        { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'sala_asensor' }
+      ],
+      
+      paredes: [
+        { x: 0, y: 0, w: 950, h: 300 },
+      ],
+    
+    }),
+
+    sala_asensor: crearSala({
+      id: 'sala_asensor',
+      nombre: 'sala_asensor',
+      fondo: 'assets/fondos/asensor.png',
+      tamaño: [960, 540],
+      
+      puertas: [
+        { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'bocetos', volver: true },
+        { lado: 'arriba',pos: 480,tamaño: [200, 330], destino: 'camino' }
+      ],
+      
+      paredes: [
+        { x: 0, y: 0, w: 950, h: 300 },
+      ],
+    
+    }),
+
+    camino: crearSala({
+      id: 'camino',
+      nombre: 'camino',
+      fondo: 'assets/fondos/creditos.png',
+      tamaño: [960, 1620],
+      
+      puertas: [
+        { lado: 'arriba',pos: 380,tamaño: [290, 20], destino: 'formulario' },
+        { lado: 'abajo',pos: 480,tamaño: [40, 20], destino: 'sala_asensor' }
+      ],
+      
+      paredes: [
+        { x: 0, y: 0, w: 450, h: 1620 },
+        { x: 500, y: 0, w: 450, h: 1620 },
+      ],
+    
+    }),
+
+    formulario: crearSala({
+      id: 'formulario',
+      nombre: 'formulario',
+      fondo: 'assets/fondos/formulario.png',
+      tamaño: [960, 540],
+      
+      puertas: [
+        { lado: 'abajo',pos: 380,tamaño: [20, 10], destino: 'camino' }
+      ],
+      
+      paredes: [
+        { x: 0, y: 0, w: 860, h: 350 },
+        { x: 860, y: 0, w: 100, h: 540 }
+          
+      ],
+    
+    }),
 
 
-};
+  };
 
 // funcion que seguro voy a reciclar
 
