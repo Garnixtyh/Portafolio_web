@@ -265,7 +265,7 @@ function crearSala(cfg) {
         h: 224 , w:309 ,
         x: 350, y: 50,
         sprite: 'assets/sprites/cartel_precentacion.png',                                            
-        modalOpen: 'elpep' ,  
+        modal: 'modal-presentacion' ,  
       }],
       puertas: [
         { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'tutorial', volver: true },
@@ -456,7 +456,7 @@ function crearSala(cfg) {
 
       puertas: [
         { lado: 'izquierda',pos: 400,tamaño: [230, 20], destino: 'home', volver: true },
-        { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'bocetos' }
+        { lado: 'derecha',pos: 400,tamaño: [230, 20], destino: 'bocetos' }
       ],
       
       paredes: [
@@ -476,12 +476,12 @@ function crearSala(cfg) {
         sprite: 'assets/sprites/cuadro_amarrillo.png',              
       },
       puertas: [
-        { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'proyectos', volver: true },
-        { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'sala_asensor' }
+        { lado: 'izquierda',pos: 400,tamaño: [230, 20], destino: 'proyectos', volver: true },
+        { lado: 'derecha',pos: 400,tamaño: [230, 20], destino: 'sala_asensor' }
       ],
       
       paredes: [
-        { x: 0, y: 0, w: 950, h: 300 },
+        { x: 0, y: 300, w: 960, h: 10 },
       ],
     
     }),
