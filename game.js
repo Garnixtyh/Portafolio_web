@@ -265,7 +265,7 @@ function crearSala(cfg) {
         h: 224 , w:309 ,
         x: 350, y: 50,
         sprite: 'assets/sprites/cartel_precentacion.png',                                            
-        modal: 'template' ,  
+        modal: 'yo' ,  
       }],
       puertas: [
         { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'tutorial', volver: true },
@@ -275,6 +275,7 @@ function crearSala(cfg) {
     
      paredes: [{ x: 0, y: 220, w: 960, h: 50 } ],
     }),
+
 
     home: crearSala({
       id: 'home',
@@ -289,16 +290,14 @@ function crearSala(cfg) {
         mensaje: 'si pasar por las puertas quieres.. las llaves deberas buscar..',
         sprite: 'assets/sprites/home/viejo.png',                                            
         },
-
         {
         h: 143 , w:100,
         x: 450, y: 300,
         mensaje: 'el fuego invade tu cara, te sientes mas reconfortado',
         sprite: 'assets/sprites/home/fuego_home.png',                                            
         }
-      ],
+      ],  
       llave: { x: 500, y: 250, color: 'amarilla', tamaño: [177 /1.5, 153 /1.5] ,sprite: 'assets/sprites/llave_amarilla.png' },
-    
       puertas: [
         { lado: 'izquierda', pos: 380,tamaño: [290, 20], destino: 'presentacion', volver: true },
         { lado: 'arriba', pos: 490,tamaño: [180, 290], destino: 'redroom' },
@@ -317,12 +316,27 @@ function crearSala(cfg) {
       nombre: 'Red Room',
       fondo: 'assets/fondos/red_room.png',
       tamaño: [960, 2160],
-      terminal: { 
+      terminal: [{ 
         x: 100, y: 1900,
         w: 170, h: 120,
         sprite: 'assets/sprites/cartel_rojo.png',
         mensaje: 'usar los ladrillos que sobre salen debes, para asi poder avanzar al objetivo'
         },
+
+        { 
+        x: 50, y: 1000,
+        w: 636/1.2, h: 464/1.2,
+        sprite: 'assets/sprites/cuadro.png',
+        modal: 'cuadro_red1',
+        },
+
+         { 
+        x: 50, y: 600,
+        w: 636 /1.2, h: 464/1.2,
+        sprite: 'assets/sprites/cuadro.png',
+        modal: 'cuadro_red2',
+        },
+      ],
       puertas: [
         { lado: 'abajo', pos: 490, destino: 'home', volver: true },
         { lado: 'arriba', pos: 490, tamaño: [160, 20], destino: 'key_room' },
@@ -411,11 +425,12 @@ function crearSala(cfg) {
       nombre: 'proyectada',
       fondo: 'assets/fondos/proyectada.png',
       tamaño: [960, 540],
-      terminal: {
+      terminal:[ {
         h: 132, w:136,
         x: 400, y: 320,
-        sprite: 'assets/sprites/silla.png',                        
-      },
+        sprite: 'assets/sprites/silla.png',       
+        modal: 'proyectada',              
+      }],
       puertas: [
         { lado: 'izquierda', pos: 250,tamaño:[230,30] , destino: 'lila_room'}
       ],

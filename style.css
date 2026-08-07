@@ -12,13 +12,21 @@
  
 
 :root {
-  --blanco_bg: #fff4d6;
   --transparente: #384b3002;
-  --verde_oscuro: #4c5332;
-  --rojo: #ff5d8f;
-  --morado: #a55ee7;
-  --amarillo: #f5ce4f;
+  --blanco_bg: #fff4d6; 
   --verde_claro: #989d67;
+  --verde_oscuro: #464f32;
+
+  --rojo: #b1384a;
+  --rojo_oscuro: #79172a;
+  --rojo_claro: #cb4f45;
+
+  --morado: #8955dd;
+  --morado_oscuro: #502497;
+  --morado_claro: #a55ee7;
+
+  --amarillo: #f5ce4f;
+
   --font-display: 'DisplayFont', 'Courier New', monospace;
   --font-body: 'BodyFont', 'Consolas', monospace;
 }
@@ -178,7 +186,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000;
+  background: var(--verde_oscuro);
   overflow: hidden;
 }
 
@@ -219,7 +227,7 @@ html, body {
 
 .wall {
   position: absolute;
-  background: var(--verde_claro);
+  background: var(--transparente);
   border: 2px solid var(--transparente);
 }
 .climb-wall {
@@ -240,18 +248,18 @@ html, body {
   border-radius: 4px;
   cursor: pointer;
 }
-.door.locked-morada { background: var(--morado); }
-.door.locked-amarilla { background: var(--amarillo); }
+.door.locked-morada { background: var(--transparente); }
+.door.locked-amarilla { background: var(--transparente); }
 .door.back-door {
   background: var(--transparente);
-  color: var(--verde_oscuro);
+  color: var(--transparente);
   border: 2px solid var(--transparente);
   font-size: 1rem;
 }
 .door.simple-door {
   background: var(--transparente);
-  color: var(--verde_oscuro);
-  border: 2px solid var(--morado);
+  color: var(--transparente);
+  border: 2px solid var(--transparente);
   font-size: 1rem;
 }
 
@@ -283,7 +291,7 @@ html, body {
   cursor: pointer;
 }
 .terminal:hover { 
-  filter: brightness(1.15); 
+  filter: brightness(1.10); 
   transform: scale(1.02,1.02);
 
 }
@@ -311,6 +319,9 @@ html, body {
   color: var(--verde_claro);
 }
 
+
+
+/* Modal styles -------------------------------------------------------------------------------------------------*/
 .modal {
   display: none;
   position: fixed;
@@ -319,7 +330,7 @@ html, body {
   align-items: center;
   justify-content: center;
   padding: 4vh 3vw;
-  background: rgba(13, 11, 20, 0.85);
+  background: rgba(70, 79, 50, 0.596);
 }
 .modal.open { display: flex; }
 
@@ -330,25 +341,93 @@ html, body {
   max-height: 90vh;
   overflow-y: auto;
   background: var(--blanco_bg);
-  border: 3px solid var(--morado);
+  border: 3px solid var(--verde_oscuro);
   border-radius: 10px;
   padding: 2rem;
+   animation: menu-fade-up 0.6s ease-out both;
+}
+
+.yo-panel {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--verde_claro);
+  border: 3px solid var(--verde_oscuro);
+  border-radius: 10px;
+  padding: 2rem;
+  
+}
+
+.red-panel {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--rojo_claro);
+  border: 3px solid var(--rojo_oscuro);
+  border-radius: 10px;
+  padding: 2rem;
+   animation: menu-fade-up 0.6s ease-out both;
+}
+
+.proyectada-panel {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--morado_claro);
+  border: 3px solid var(--morado_oscuro);
+  border-radius: 10px;
+  padding: 2rem;
+   animation: menu-fade-up 0.6s ease-out both;
+}
+
+
+.imagen-modal {
+  display: block;
+  animation: menu-fade-up 0.6s ease-out both;
+  
+  image-rendering: pixelated;
+}
+
+.imagen-morada {
+  position: absolute;
+  bottom: 0%;
+  left: 50%;
+   width: 50%;
+  height: 90%;
+  transform: translate(-50%, -50%);
+  animation: menu-slide-left-to-right 0.6s ease-out both;
+  image-rendering: pixelated;
+}
+
+.letras_blancas {
+  color: var(--blanco_bg);
+  font-family: var(--font-display);
+   animation: menu-fade-up 0.6s ease-out both;
 }
 
 .modal-close {
   position: absolute;
   top: 0.8em;
   right: 0.8em;
-  background: var(--rojo);
-  color: var(--blanco_bg);
+  background: var(--blanco_bg);
+  color: var(--verde_oscuro);
   border: none;
   width: 2em;
   height: 2em;
   border-radius: 50%;
   font-weight: 700;
   cursor: pointer;
+  
+  
+   animation: menu-fade-up 0.6s ease-out both;
 }
-.modal-close:hover { background: var(--morado); }
+.modal-close:hover { background: var(--verde_claro); }
 
 @media (max-width: 600px) {
   .modal-panel { padding: 1.2rem; }
