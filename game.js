@@ -271,6 +271,8 @@ function crearSala(cfg) {
         { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'tutorial', volver: true },
         { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'home' }
       ],
+      llave: { x: 500, y: 250, color: 'morada', tamaño: [177 /1.5, 153 /1.5] ,sprite: 'assets/sprites/llave_amarilla.png' },
+    
      paredes: [{ x: 0, y: 220, w: 960, h: 50 } ],
     }),
 
@@ -366,12 +368,38 @@ function crearSala(cfg) {
       fondo: 'assets/fondos/lila_room.png',
       musica: 'assets/audio/circus.ogg',
       tamaño: [960, 540],
-      terminal: {
-        h: 91 *1.2 , w:152 *1.2,
-        x: 700, y: 40,
-        mensaje:'me dieron este chupetin en la sala del lado, queres ? comprate!! xP',
-        sprite: 'assets/sprites/bati.png',                                            
-      },
+
+      terminal: [
+        {
+          h: 91 *1.2 , w:152 *1.2,
+          x: 700, y: 40,
+          mensaje:'me dieron este chupetin en la sala del lado, queres ? comprate!! xP',
+          sprite: 'assets/sprites/bati.png',                                            
+        },
+
+        {
+          h: 240  , w:182 ,
+          x: 400, y: 250,
+          mensaje:'¿sabias que el 30 porciento de la salchica es sal y el 70 porciento restante es chicha ? ¡honk! ¡honk! ',
+          sprite: 'assets/sprites/jogo.png',                                            
+        },
+
+        {
+          w: 200, h:372,
+          x: 60, y: 100,
+          mensaje:'un arbol tetrico',
+          sprite: 'assets/sprites/arbol.png',                                            
+        },
+      ],
+
+      paredes: [
+        { x: 80, y: 420, w: 150, h: 20 },
+        { x: 450, y: 470, w: 90, h: 20 },
+        
+        {  x: 730, y: 130,  w: 120, h: 20 },
+      
+
+      ],
       puertas: [
         { lado: 'arriba', pos: 150,tamaño:[230,20] , destino: 'home'},
         { lado: 'derecha', pos: 250,tamaño:[230,30] , destino: 'proyectada'}
@@ -394,6 +422,8 @@ function crearSala(cfg) {
       
       paredes: [
         { x: 0, y: 0, w: 950, h: 200 },
+         {  x: 630, y: 370,  w: 100, h: 90 },
+         {  x: 400, y: 430,  w: 100, h: 20 }
       ],
     
     }),
@@ -403,18 +433,34 @@ function crearSala(cfg) {
       nombre: 'proyectos',
       fondo: 'assets/fondos/yellow_room.png',
       tamaño: [1920, 540],
-      terminal: {
-        h: 132, w:136,
-        x: 240, y: 320,
-        sprite: 'assets/sprites/cuadro_amarrillo.png',                        
+      terminal: [
+
+      { // bro bots ----------------------------///
+        w: 498/1.2, h: 359/1.2,
+        x: 200, y: 0,
+        sprite: 'assets/sprites/cuadro_brobots.png',              
       },
+
+      { /// policards --------------------------///
+        w: 498 /1.2, h: 359/1.2,
+        x: 750, y: 0,
+        sprite: 'assets/sprites/cuadro_policards.png',             
+      },
+
+      { /// bananzas factory --------------------///
+        w: 498/1.2, h: 359/1.2,
+        x: 1300, y: 0,
+        sprite: 'assets/sprites/cuadro_bananzas_factory.png',              
+      },
+      ],
+
       puertas: [
-        { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'home', volver: true },
+        { lado: 'izquierda',pos: 400,tamaño: [230, 20], destino: 'home', volver: true },
         { lado: 'derecha',pos: 380,tamaño: [290, 20], destino: 'bocetos' }
       ],
       
       paredes: [
-        { x: 0, y: 0, w: 950, h: 200 },
+        { x: 0, y: 300, w: 1920, h: 10 },
       ],
     
     }),
@@ -425,9 +471,9 @@ function crearSala(cfg) {
       fondo: 'assets/fondos/yellow_room2.png',
       tamaño: [960, 540],
       terminal: {
-        h: 132, w:136,
-        x: 240, y: 320,
-        sprite: 'assets/sprites/cuadro_amarrillo.png',                        
+        w: 498/1.2, h: 359/1.2,
+        x: 1300, y: 0,
+        sprite: 'assets/sprites/cuadro_amarrillo.png',              
       },
       puertas: [
         { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'proyectos', volver: true },
