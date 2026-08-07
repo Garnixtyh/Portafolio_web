@@ -265,7 +265,7 @@ function crearSala(cfg) {
         h: 224 , w:309 ,
         x: 350, y: 50,
         sprite: 'assets/sprites/cartel_precentacion.png',                                            
-        modal: 'modal-presentacion' ,  
+        modal: 'template' ,  
       }],
       puertas: [
         { lado: 'izquierda',pos: 380,tamaño: [290, 20], destino: 'tutorial', volver: true },
