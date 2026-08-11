@@ -1,0 +1,23 @@
+{
+  "name": "portafolio_web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Garnixtyh/Portafolio_web.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Garnixtyh/Portafolio_web/issues"
+  },
+  "homepage": "https://github.com/Garnixtyh/Portafolio_web#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mysql2": "^3.23.3"
+  }
+}

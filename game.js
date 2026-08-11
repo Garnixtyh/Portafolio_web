@@ -486,11 +486,7 @@ function crearSala(cfg) {
       nombre: 'bocetos',
       fondo: 'assets/fondos/yellow_room2.png',
       tamaño: [960, 540],
-      terminal: {
-        w: 498/1.2, h: 359/1.2,
-        x: 1300, y: 0,
-        sprite: 'assets/sprites/cuadro_amarrillo.png',              
-      },
+     
       puertas: [
         { lado: 'izquierda',pos: 400,tamaño: [230, 20], destino: 'proyectos', volver: true },
         { lado: 'derecha',pos: 400,tamaño: [230, 20], destino: 'sala_asensor' }
@@ -542,7 +538,13 @@ function crearSala(cfg) {
       nombre: 'formulario',
       fondo: 'assets/fondos/formulario.png',
       tamaño: [960, 540],
-      
+
+       terminal: {
+        w: 498/1.2, h: 359/1.2,
+        x: 1300, y: 0,
+        sprite: 'assets/sprites/cuadro_amarrillo.png',   
+        modal: 'formu'           
+      },
       puertas: [
         { lado: 'abajo',pos: 380,tamaño: [20, 10], destino: 'camino' }
       ],
