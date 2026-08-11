@@ -541,8 +541,8 @@ function crearSala(cfg) {
 
        terminal: {
         w: 498/1.2, h: 359/1.2,
-        x: 1300, y: 0,
-        sprite: 'assets/sprites/cuadro_amarrillo.png',   
+        x: 500, y: 100,
+        sprite: 'assets/sprites/formulario.png',   
         modal: 'formu'           
       },
       puertas: [
@@ -550,7 +550,7 @@ function crearSala(cfg) {
       ],
       
       paredes: [
-        { x: 0, y: 0, w: 860, h: 350 },
+        { x: 0, y: 300, w: 860, h: 50 },
         { x: 860, y: 0, w: 100, h: 540 }
           
       ],

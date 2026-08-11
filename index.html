@@ -149,15 +149,24 @@
       </section>
 
 
-      <section id="modal-formu" class="modal">
-      <div>
-        <form id="formu">
-          <input type="text" id="nombre">
-          <input type="text" id="asunto">
-          <textarea id="mensaje" rows="10"> 
+       <section id="modal-formu" class="modal" >
+        <article class="yo-panel">
 
-      </div> 
+          <form id="formRegistro">
+            <input type="text" id="nombre" placeholder="Nombre" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <select id="rol" required>
+            <option value="">Seleccioná un rol</option>
+            <option value="estudiante">Estudiante</option>
+            <option value="administrador">Administrador</option>
+            <option value="dptoA">Departamento Alumno</option>
+            </select>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <button type="submit">Registrarse</button>
+          </form>
 
+          </div>
+        </article>
       </section>
       
 
